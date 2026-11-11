@@ -1,69 +1,81 @@
-<div align="center">
-
 # 🚀 LombaMate
+
+<div align="center">
 
 **Temukan Partner, Wujudkan Prestasi**
 
-LombaMate adalah web pencari teman satu tim lomba, tempat mahasiswa bisa memasang kebutuhan partner, menemukan tim yang membuka kuota, dan mengajukan diri untuk bergabung hanya dengan satu klik. Setiap postingan memuat peran yang dicari, batas pendaftaran, dan kuota yang tersisa, sehingga kamu langsung tahu tim mana yang cocok denganmu. Dibangun dengan Express dan JavaScript murni, LombaMate dilengkapi pencarian, profil publik, serta sistem terima atau tolak permintaan gabung, jadi tidak ada lagi alasan untuk lomba sendirian.
+Aplikasi web pencari teman satu tim lomba untuk mahasiswa. LombaMate membantu mahasiswa menemukan partner berdasarkan kebutuhan keahlian, membuka kesempatan bergabung ke dalam tim, dan mengelola permintaan gabung dalam satu platform.
 
-Aplikasi web pencari teman satu tim untuk lomba, dibangun dengan **Express (Node.js)** sebagai back-end dan **HTML, CSS, JavaScript** sebagai front-end.
+Dibangun menggunakan Express.js, JavaScript vanilla, dan PostgreSQL melalui Prisma ORM.
 
-![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5.x-000000?logo=express&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-6.19.3-2D3748?logo=prisma&logoColor=white)
 
 </div>
 
 ---
 
-## 📋 Identitas
+## Identitas
 
-| | |
+| Keterangan | Informasi |
 |---|---|
-| **Mata Kuliah** | Pemweb B |
-| **Topik** | Express API (REST API dengan GET, POST, PUT, DELETE) |
-| **Nama** | Maitasya Rohmatul Ula |
-| **NRP** | 5027251026 |
+| Mata Kuliah | Pemweb B |
+| Topik | Express API (REST API dengan GET, POST, PUT, DELETE) |
+| Nama | Maitasya Rohmatul Ula |
+| NRP | 5027251026 |
 
 ---
 
 ## 1. Pendahuluan
 
 ### 1.1 Latar Belakang
-Banyak mahasiswa ingin mengikuti lomba tetapi kesulitan menemukan rekan satu tim yang memiliki keahlian yang sesuai, misalnya frontend, backend, UI/UX, atau penulis. **LombaMate** menyediakan satu tempat bagi mahasiswa untuk memasang kebutuhan partner lomba, mencari tim yang sedang membuka kuota, dan mengajukan diri untuk bergabung.
+
+Banyak mahasiswa ingin mengikuti kompetisi, tetapi kesulitan menemukan rekan satu tim yang memiliki keahlian sesuai kebutuhan lomba, seperti frontend, backend, UI/UX, maupun penulisan.
+
+LombaMate hadir sebagai platform yang mempertemukan mahasiswa dengan calon partner lomba. Pengguna dapat membuat postingan kebutuhan anggota tim, mencari tim yang masih membuka kuota, serta mengajukan permintaan untuk bergabung.
 
 ### 1.2 Tujuan
-1. Membangun aplikasi web dengan **Express** sebagai back-end dan **HTML, CSS, JavaScript** sebagai front-end.
-2. Menerapkan operasi **CRUD** melalui REST API:
-   - **GET**: menampilkan seluruh data pada halaman web.
-   - **POST**: menambahkan data melalui form.
-   - **PUT**: mengubah data melalui fitur Edit.
-   - **DELETE**: menghapus data melalui tombol Hapus.
-3. Menyimpan data secara persisten di **database PostgreSQL (Neon) melalui Prisma ORM**.
+
+1. Membangun aplikasi web menggunakan Express.js sebagai back-end dan HTML, CSS, serta JavaScript sebagai front-end.
+2. Menerapkan operasi CRUD melalui REST API:
+   - **GET:** mengambil dan menampilkan data.
+   - **POST:** menambahkan data baru.
+   - **PUT:** memperbarui data yang sudah ada.
+   - **DELETE:** menghapus data.
+3. Mengimplementasikan autentikasi dan pembatasan hak akses pengguna.
+4. Menyimpan data secara persisten menggunakan PostgreSQL melalui Prisma ORM.
 
 ---
 
-## 2. Fitur
+## 2. Fitur Aplikasi
 
-### Fitur wajib tugas (CRUD)
-| Operasi | Endpoint | Cara pakai di web |
+### 2.1 Fitur Utama (CRUD)
+
+| Operasi | Endpoint | Implementasi pada Web |
 |---|---|---|
-| **GET** | `GET /api/partners` | Seluruh kartu partner tampil di halaman Beranda |
-| **POST** | `POST /api/partners` | Form pada halaman **Tambah Partner** |
-| **PUT** | `PUT /api/partners/:id` | Tombol **✏️ Edit** pada kartu milik sendiri |
-| **DELETE** | `DELETE /api/partners/:id` | Tombol **🗑️ Hapus** pada kartu milik sendiri, dengan dialog konfirmasi |
+| GET | `GET /api/partners` | Menampilkan daftar postingan partner di halaman Beranda |
+| POST | `POST /api/partners` | Menambahkan postingan melalui form Tambah Partner |
+| PUT | `PUT /api/partners/:id` | Mengedit postingan milik sendiri |
+| DELETE | `DELETE /api/partners/:id` | Menghapus postingan milik sendiri dengan dialog konfirmasi |
 
-### Fitur tambahan
-- 🔐 Login dan daftar akun.
-- 🔍 Pencarian dan filter berdasarkan kategori dan deadline.
-- 🤝 Tombol **Ikuti** untuk meminta bergabung ke tim, lengkap dengan kuota tersisa.
-- ✅ Pemilik postingan dapat **Terima** atau **Tolak** permintaan gabung.
-- 👥 Tab **Cari Teman** dan **Tim Saya**.
-- 👤 Profil publik yang bisa dilihat pengguna lain (`profil.html?u=username`).
-- 🛡️ Hanya pemilik postingan yang boleh mengubah atau menghapus (server mengembalikan `403` bagi selain pemilik).
-- ✔️ Validasi data di sisi server (`400` jika data tidak lengkap).
+### 2.2 Fitur Tambahan
+
+- 🔐 Registrasi dan login pengguna.
+- 🔍 Pencarian serta filter berdasarkan kategori dan deadline.
+- 🤝 Pengajuan permintaan bergabung ke dalam tim.
+- ✅ Pemilik postingan dapat menerima atau menolak permintaan bergabung.
+- 👥 Tab Cari Teman dan Tim Saya.
+- 👤 Profil pengguna yang dapat dilihat secara publik.
+- 📊 Informasi kuota anggota yang masih tersedia.
+- 🔒 Pembatasan akses edit dan hapus hanya untuk pemilik postingan.
+- 🛡️ Validasi data pada sisi server.
+- 🔑 Fitur lupa password dan reset password.
+- 📱 Pengelolaan sesi login pada beberapa perangkat.
 
 ---
 
@@ -71,113 +83,183 @@ Banyak mahasiswa ingin mengikuti lomba tetapi kesulitan menemukan rekan satu tim
 
 | Lapisan | Teknologi |
 |---|---|
-| Back-end | Node.js, Express 5 |
-| Front-end | HTML5, CSS3, JavaScript (vanilla, `fetch` API) |
-| Database | **PostgreSQL (Neon) via Prisma ORM** |
+| Runtime | Node.js 20 atau lebih baru |
+| Back-end | Express 5.x |
+| Front-end | HTML5, CSS3, JavaScript vanilla |
+| Komunikasi | Fetch API dan JSON |
+| Database | PostgreSQL (Neon) |
+| ORM | Prisma 6.19.3 |
+| Database Adapter | `@prisma/adapter-neon` 6.19.3 |
+| Autentikasi | bcryptjs 3.0.3 |
 | Pengujian API | Postman |
+| Version Control | Git dan GitHub |
 
 ---
 
-## 3b. Database (Prisma + PostgreSQL Neon)
+## 4. Database dan Pengelolaan Data
 
-Setelah sebelumnya memakai berkas JSON, **semua data** — postingan partner, permintaan gabung, profil, akun, dan sesi login — kini tersimpan di **PostgreSQL** yang di-hosting **Neon** (region Singapore), dikelola lewat **Prisma ORM** skema `prisma/schema.prisma` (model `Partner`, `Join`, `Profile`, `User`, `Session`, `PasswordReset`).
+LombaMate menggunakan PostgreSQL yang di-host melalui Neon sebagai tempat penyimpanan data. Pengelolaan database dilakukan menggunakan Prisma ORM dengan skema pada `prisma/schema.prisma`.
 
-- `DATABASE_URL` disimpan di `.env` (tidak di-commit; sudah masuk `.gitignore`).
-- Struktur data yang dikirim ke frontend **sama persis** dengan versi JSON, jadi frontend tidak perlu berubah.
-- Perintah penting:
-  ```bash
-  npm install             # pasang dependensi (sekali)
-  npx prisma db push      # buat/sinkron tabel di Neon
-  npm run seed            # salin data & akun lama dari src/data/*.json ke Neon
-  npm start               # nyalakan server
-  npx prisma studio       # (opsional) Prisma Studio untuk melihat isi tabel
-  ```
-- Akun & sesi: tabel `User` (password hash bcrypt) dan `Session` (id = SHA-256 token cookie, token mentah tidak pernah disimpan di database).
+Database memiliki enam model utama:
 
-### Keamanan autentikasi (src/auth.js)
+| Model | Fungsi |
+|---|---|
+| `Partner` | Menyimpan informasi postingan kebutuhan partner lomba |
+| `Join` | Menyimpan permintaan pengguna untuk bergabung ke tim |
+| `Profile` | Menyimpan informasi profil pengguna |
+| `User` | Menyimpan akun dan password yang sudah di-hash |
+| `Session` | Menyimpan informasi sesi login pengguna |
+| `PasswordReset` | Menyimpan token untuk proses reset password |
 
-- Registrasi/login **sepenuhnya di server**; identitas pengguna selalu dibuktikan lewat **cookie `lombamate_session` (HttpOnly, SameSite=Lax, `Secure` otomatis saat `NODE_ENV=production`)** — frontend tidak pernah dipercaya.
-- **Session fixation**: setiap login/registrasi membuat token baru; token lama tidak pernah dipakai ulang.
-- **Anti brute force**: 5× gagal per akun (atau 20× per IP) = blokir 5 menit.
-- **Ganti password** (`POST /api/auth/change-password`): mematikan sesi di perangkat lain otomatis.
-- **Lupa password** (`POST /api/auth/forgot` + `/api/auth/reset`): token sekali pakai berlaku 30 menit, disimpan sebagai hash; semua sesi dimatikan setelah reset. Pengiriman email sungguhan butuh layanan SMTP — di mode pengembangan token dikembalikan di respons untuk demo.
-- **Kelola sesi aktif** (`GET /api/auth/sessions`, `DELETE /api/auth/sessions/:id`, `POST /api/auth/logout-all`): lihat dan matikan sesi per perangkat.
-- Halaman terlindung **memverifikasi sesi ke server** (`GET /api/auth/me`) — `localStorage` hanya cache tampilan navbar, bukan bukti identitas.
-- Cek cepat "password tidak plaintext": `node src/cek-hash.js`.
+### 4.1 Konfigurasi Database
 
-### Diagram kartu kuota
+- Koneksi database disimpan pada variabel `DATABASE_URL` di file `.env`.
+- File `.env` tidak dimasukkan ke repository dan sudah dicantumkan dalam `.gitignore`.
+- Prisma ORM digunakan untuk melakukan operasi pembacaan dan perubahan data.
+- Data utama aplikasi disimpan di PostgreSQL sehingga tetap tersedia setelah server dimatikan.
 
-```sql
-Partner 1 ── * Join          -- onDelete Cascade (hapus partner = hapus join-nya)
-User    1 ── * Session       -- sesi login per perangkat
-User    1 ── * PasswordReset -- token ganti password sekali pakai
+### 4.2 Data Awal (Seed)
+
+Folder `src/data/` menyediakan berkas JSON sebagai sumber data awal untuk proses pengisian database.
+
+Perintah yang digunakan:
+
+```bash
+npx prisma db push
+npm run seed
 ```
+
+Berkas JSON tersebut berfungsi sebagai sumber data awal, bukan sebagai penyimpanan utama saat aplikasi berjalan.
+
+### 4.3 Keamanan Penyimpanan Akun
+
+- Password pengguna di-hash menggunakan bcryptjs sebelum disimpan.
+- Token sesi mentah tidak disimpan langsung di database.
+- Data sesi dikelola melalui model `Session`.
+- Token reset password disimpan dalam bentuk hash sesuai implementasi autentikasi.
 
 ---
 
-## 4. Arsitektur
+## 5. Arsitektur Aplikasi
 
-```
- Browser (HTML + CSS + JS)
-        │   fetch()  ── JSON ──►
-        ▼
- Express server (src/server.js)
-   ├─ express.static  → menyajikan folder public/
-   ├─ express.json    → membaca body JSON
-   ├─ requireAuth     → cookie HttpOnly dari src/auth.js
-   └─ REST API /api/* → query via Prisma ORM
-        ▼
- PostgreSQL (Neon, region Singapore):
-   Partner · Join · Profile · User · Session · PasswordReset
-   (akun & sesi juga di database - bukan lagi file JSON)
+LombaMate menggunakan arsitektur client-server. Browser berkomunikasi dengan server melalui REST API menggunakan Fetch API dan pertukaran data JSON.
+
+```text
+Browser
+(HTML + CSS + JavaScript)
+        |
+        | Fetch API / JSON
+        v
+Express Server
+(src/server.js)
+        |
+        ├── express.static
+        |   Menyajikan folder public/
+        |
+        ├── express.json
+        |   Membaca request JSON
+        |
+        ├── requireAuth
+        |   Memeriksa autentikasi pengguna
+        |
+        ├── REST API
+        |   Mengelola data aplikasi
+        |
+        v
+Prisma ORM
+        |
+        v
+PostgreSQL (Neon)
+        |
+        ├── Partner
+        ├── Join
+        ├── Profile
+        ├── User
+        ├── Session
+        └── PasswordReset
 ```
 
-### Struktur folder
-```
+### 5.1 Struktur Folder
+
+```text
 lombamate/
+├── prisma/
+│   └── schema.prisma
 ├── src/
-│   ├── server.js            # server Express + semua endpoint
+│   ├── server.js
+│   ├── auth.js
+│   ├── seed.js
+│   ├── cek-hash.js
 │   └── data/
-│       ├── partners.json    # data partner (data utama CRUD)
-│       ├── joins.json       # permintaan gabung
-│       └── profiles.json    # profil publik
+│       ├── users.json
+│       ├── partners.json
+│       ├── joins.json
+│       ├── profiles.json
+│       └── sessions.json
 ├── public/
-│   ├── index.html           # Beranda (GET + Edit + Hapus)
-│   ├── tambah-partner.html  # form Tambah (POST) dan Edit (PUT)
-│   ├── profil.html          # profil pengguna
-│   ├── login.html           # masuk dan daftar
-│   ├── *.css                # style.css, app.css, profil.css, ...
-│   ├── assets/              # gambar maskot
+│   ├── index.html
+│   ├── tambah-partner.html
+│   ├── profil.html
+│   ├── login.html
+│   ├── reset.html
+│   ├── *.css
+│   ├── assets/
 │   └── js/
-│       ├── api.js           # semua pemanggilan ke back-end
-│       ├── beranda.js       # tampil kartu, edit, hapus
-│       ├── tambah-partner.js# form tambah / ubah
-│       ├── profil.js, login.js, auth.js, utils.js
+│       ├── api.js
+│       ├── auth.js
+│       ├── beranda.js
+│       ├── tambah-partner.js
+│       ├── profil.js
+│       ├── login.js
+│       ├── reset.js
+│       └── utils.js
+├── screenshots/
+├── postman/
+├── .env
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
+Keterangan:
+- `prisma/`: konfigurasi skema database.
+- `src/server.js`: server Express dan endpoint API.
+- `src/auth.js`: pengelolaan autentikasi dan sesi.
+- `src/seed.js`: pengisian data awal ke database.
+- `src/cek-hash.js`: utilitas pengecekan hash password.
+- `src/data/`: sumber data awal berbentuk JSON.
+- `public/`: halaman, aset, CSS, dan JavaScript front-end.
+- `screenshots/`: bukti dokumentasi pengujian.
+- `postman/`: koleksi dan dokumentasi pengujian API.
+
 ---
 
-## 5. Dokumentasi API
+## 6. Dokumentasi API
 
-Base URL: `http://localhost:3000`
+Base URL:
 
-### 5.1 Endpoint utama (CRUD)
+```text
+http://localhost:3000
+```
 
-| Method | Endpoint | Body | Respons sukses | Respons gagal |
+### 6.1 Endpoint Utama (CRUD)
+
+| Method | Endpoint | Body | Respons Sukses | Respons Gagal |
 |---|---|---|---|---|
-| GET | `/api/partners` | – | `200` daftar partner | – |
-| GET | `/api/partners/:id` | – | `200` satu partner (khusus pemilik) | `403`, `404` |
-| POST | `/api/partners` | data partner | `201` partner baru | `400`, `401` |
-| PUT | `/api/partners/:id` | data partner | `200` partner terbaru | `400`, `403`, `404` |
-| DELETE | `/api/partners/:id` | – | `200` pesan sukses | `403`, `404` |
+| GET | `/api/partners` | - | `200` daftar partner | - |
+| GET | `/api/partners/:id` | - | `200` detail partner milik sendiri | `400`, `401`, `403`, `404` |
+| POST | `/api/partners` | Data partner | `201` partner baru | `400`, `401` |
+| PUT | `/api/partners/:id` | Data perubahan | `200` partner terbaru | `400`, `401`, `403`, `404` |
+| DELETE | `/api/partners/:id` | - | `200` pesan sukses | `401`, `403`, `404` |
 
-> Identitas pemilik **tidak dikirim dari klien** — server mengambilnya dari cookie sesi yang terverifikasi database.
+**Catatan autentikasi:** Identitas pemilik postingan tidak ditentukan melalui `ownerUsername` yang dikirim dari browser. Server mengambil identitas pengguna dari sesi login yang sudah diverifikasi.
 
-### 5.2 Contoh request
+### 6.2 Contoh Request
 
 **POST `/api/partners`**
+
+Contoh body JSON untuk membuat postingan partner:
+
 ```json
 {
   "category": "teknologi",
@@ -186,179 +268,312 @@ Base URL: `http://localhost:3000`
   "level": "Nasional",
   "deadline": "2026-11-25",
   "slots": 2,
-  "roles": ["Frontend", "Backend"],
+  "roles": [
+    "Frontend",
+    "Backend"
+  ],
   "scope": "Satu kampus",
   "description": "Mencari partner untuk lomba web.",
   "contactType": "WhatsApp",
   "contact": "08123456789",
-  "ownerName": "Maya Putri",
-  "ownerCampus": "ITS",
-  "ownerUsername": "maya_putri"
+  "ownerCampus": "ITS"
 }
 ```
 
-**PUT `/api/partners/:id`** (hanya pemilik yang sedang masuk)
+`ownerName` dan `ownerUsername` tidak perlu dikirim karena server mengisinya berdasarkan pengguna yang sedang login.
+
+**PUT `/api/partners/:id`**
+
+Contoh mengubah kuota postingan:
+
 ```json
-{ "slots": 1 }
+{
+  "slots": 1
+}
 ```
 
-**DELETE `/api/partners/:id`** (hanya pemilik yang sedang masuk, tanpa body)
+**DELETE `/api/partners/:id`**
 
-### 5.3 Aturan validasi
-- `category`, `competition`, `roles` (minimal satu), dan `contact` wajib diisi.
-- `slots` boleh kosong, atau bilangan bulat 1 sampai 10.
-- `PUT` dan `DELETE` hanya diizinkan untuk pemilik data (sesi login di server = `ownerUsername`).
+Tidak membutuhkan body. Penghapusan hanya dapat dilakukan oleh pemilik postingan yang sudah login.
 
-### 5.4 Endpoint tambahan
+### 6.3 Aturan Validasi
+
+- Kategori, nama kompetisi, minimal satu peran, dan kontak wajib diisi.
+- Jumlah kuota harus berupa bilangan bulat 1 sampai 10 apabila diisi.
+- Data diperiksa kembali oleh server sebelum disimpan.
+- Pengguna harus login untuk melakukan operasi tulis.
+- Edit dan hapus postingan hanya diizinkan untuk pemiliknya.
+
+### 6.4 Endpoint Tambahan
+
+| Method | Endpoint | Fungsi | Akses |
+|---|---|---|---|
+| POST | `/api/partners/:id/joins` | Mengajukan permintaan bergabung | Login |
+| PUT | `/api/joins/:id` | Menerima atau menolak permintaan gabung | Login |
+| DELETE | `/api/joins/:id` | Membatalkan permintaan atau meninggalkan tim | Login |
+| GET | `/api/profiles` | Melihat daftar profil | Login |
+| GET | `/api/profiles/:username` | Melihat profil berdasarkan username | Publik |
+| PUT | `/api/profiles/:username` | Memperbarui profil sendiri | Login |
+
+### 6.5 Endpoint Autentikasi
+
 | Method | Endpoint | Fungsi |
 |---|---|---|
-| POST | `/api/partners/:id/joins` | Mengajukan permintaan gabung |
-| PUT | `/api/joins/:id` | Pemilik menerima atau menolak permintaan |
-| DELETE | `/api/joins/:id` | Membatalkan permintaan atau meninggalkan tim |
-| GET | `/api/profiles`, `/api/profiles/:username` | Melihat profil publik |
-| PUT | `/api/profiles/:username` | Menyimpan profil sendiri |
+| POST | `/api/auth/register` | Membuat akun baru |
+| POST | `/api/auth/login` | Login pengguna |
+| POST | `/api/auth/logout` | Logout dan menghapus sesi |
+| GET | `/api/auth/me` | Memeriksa pengguna yang sedang login |
+| GET | `/api/auth/sessions` | Melihat daftar sesi aktif |
+| DELETE | `/api/auth/sessions/:id` | Mengakhiri sesi tertentu |
+| POST | `/api/auth/logout-all` | Logout dari semua perangkat |
+| POST | `/api/auth/change-password` | Mengganti password |
+| POST | `/api/auth/forgot` | Meminta proses reset password |
+| POST | `/api/auth/reset` | Mengatur ulang password melalui token |
 
-### 5.5 Endpoint autentikasi
-| Method | Endpoint | Fungsi |
-|---|---|---|
-| POST | `/api/auth/register` | Membuat akun baru, otomatis masuk |
-| POST | `/api/auth/login` | Masuk (dibatasi 5x gagal ⇒ jeda 5 menit) |
-| POST | `/api/auth/logout` | Keluar, sesi dihapus di server |
-| GET | `/api/auth/me` | Memeriksa siapa pengguna yang sedang masuk |
-| POST | `/api/auth/change-password` | Ganti password (sesi perangkat lain dicabut) |
-| POST | `/api/auth/forgot` | Minta tautan ganti password (token sekali pakai, 30 menit) |
-| POST | `/api/auth/reset` | Ganti password lewat token |
-| GET | `/api/auth/sessions` | Daftar sesi aktif per perangkat |
-| DELETE | `/api/auth/sessions/:id` | Matikan satu sesi |
-| POST | `/api/auth/logout-all` | Keluar dari semua perangkat |
+### 6.6 Endpoint Sistem
+
+| Method | Endpoint | Fungsi | Respons |
+|---|---|---|---|
+| GET | `/api/health` | Memeriksa koneksi database PostgreSQL Neon | `200` jika terhubung, `500` jika gagal |
 
 ---
 
-## 5b. Keamanan (lapisan server)
+## 7. Keamanan Aplikasi
 
-Sebelumnya login hanya berjalan di browser, sehingga identitas bisa dipalsukan dengan mengirim field `requester` ke API. Sekarang keamanan ditangani server:
+Keamanan LombaMate ditangani pada sisi server agar pengguna tidak dapat menentukan identitas maupun hak akses hanya dengan memanipulasi data dari browser.
 
-1. **Password di-hash** dengan **bcrypt** (`src/auth.js`), tersimpan di tabel `User` (PostgreSQL/Neon); password mentah tidak pernah disimpan.
-2. **Sesi = cookie `HttpOnly`** yang dibuat server (token acak 32 byte, berlaku 7 hari). JavaScript di browser tidak bisa membacanya, dan database hanya menyimpan SHA-256 dari token — token mentah tidak pernah disimpan.
-3. **Semua endpoint tulis wajib login** melalui middleware `requireAuth`; identitas diambil dari sesi yang diverifikasi ke database, **bukan dari body maupun localStorage**.
-4. **Validasi backend menyeluruh**: kategori/tingkat/jenis kontak harus dari daftar resmi, panjang teks dibatasi, deadline wajib format `YYYY-MM-DD` dan tidak boleh lewat, link wajib `http/https`.
-5. **Header keamanan**: Content-Security-Policy, X-Frame-Options DENY, nosniff, Referrer-Policy.
-6. **Aturan keputusan join**: hanya permintaan berstatus `menunggu` yang bisa diputuskan, permintaan yang ditolak tidak bisa diaktifkan ulang, kuota dicek ulang saat menerima, dan permintaan aktif duplikat diblokir.
-7. **Data privat sensitif**: daftar `GET /api/profiles` khusus pengguna yang sudah masuk; daftar permintaan gabung hanya terlihat bagi pemilik kartu atau pengajunya sendiri.
-8. **Pembatasan percobaan login**: 5 kali gagal dalam satu kombinasi IP+username ⇒ diblokir 5 menit.
+### 7.1 Autentikasi dan Sesi
+
+1. **Password hashing:** Password disimpan dalam bentuk hash menggunakan bcryptjs, bukan sebagai teks biasa.
+2. **Cookie HttpOnly:** Autentikasi menggunakan cookie sesi `lombamate_session` yang tidak dapat dibaca melalui JavaScript browser.
+3. **Verifikasi sesi:** Server memeriksa sesi melalui database sebelum memberikan akses ke endpoint yang dilindungi.
+4. **Session fixation:** Login dan registrasi membuat token sesi baru.
+5. **Penyimpanan token:** Database menyimpan hash SHA-256 token sesi, bukan token mentah.
+6. **Pengelolaan sesi:** Pengguna dapat melihat sesi aktif, mengakhiri sesi tertentu, maupun logout dari semua perangkat.
+7. **Reset password:** Token reset memiliki masa berlaku dan digunakan untuk proses pengaturan ulang password.
+
+### 7.2 Validasi dan Hak Akses
+
+- Validasi input dilakukan di sisi server.
+- Identitas pengguna berasal dari sesi yang sudah diverifikasi.
+- Pengguna tidak dapat mengubah atau menghapus postingan milik orang lain.
+- Daftar profil dan permintaan gabung memiliki pembatasan akses sesuai jenis penggunanya.
+- Permintaan gabung diperiksa berdasarkan status dan hak akses sebelum diproses.
+- Kuota diperiksa kembali saat permintaan diterima.
+
+### 7.3 Perlindungan Tambahan
+
+Aplikasi juga menerapkan konfigurasi keamanan HTTP, antara lain:
+
+- Content Security Policy.
+- X-Frame-Options.
+- X-Content-Type-Options (`nosniff`).
+- Referrer-Policy.
+
+**Catatan:** Detail batas percobaan login dan konfigurasi keamanan lainnya mengikuti implementasi aktual pada `src/auth.js` dan `src/server.js`. Pengiriman email reset password sungguhan memerlukan konfigurasi layanan email; mode pengembangan dapat digunakan untuk demonstrasi token reset.
 
 ---
 
-## 6. Cara Menjalankan
+## 8. Cara Menjalankan Aplikasi
 
-### 6.1 Prasyarat
-- [Node.js](https://nodejs.org/) versi 18 atau lebih baru (cek dengan `node -v`).
-- Koneksi internet saat `npm install` pertama kali.
-- Akun database **PostgreSQL** (project ini memakai [Neon](https://neon.tech) — ada paket gratis).
+### 8.1 Prasyarat
 
-### 6.2 Langkah-langkah
-1. **Clone** repository, lalu buka terminal di foldernya.
-   ```bash
-   git clone https://github.com/Maitasya/lombamate.git
-   cd lombamate
-   ```
-2. **Pasang dependensi** (cukup sekali; folder `node_modules` dibuat otomatis).
-   ```bash
-   npm install
-   ```
-3. **Siapkan koneksi database**: buat file `.env` di dalam folder (tidak ikut repo) berisi:
-   ```
-   DATABASE_URL="postgresql://USER:PASSWORD@HOST/dbname?sslmode=require"
-   ```
-4. **Buat tabel** di database dari skema Prisma, lalu **isi data & akun demo**:
-   ```bash
-   npx prisma db push     # membuat tabel Partner, Join, Profile, User, Session, PasswordReset
-   npm run seed           # mengisi data & akun demo dari src/data/*.json
-   ```
-   Akun demo: `maya_putri` / `mayamantap123`, `adi` / `adimantap123`, `uji_pemilik` / `rahasia123`, `uji_cari` / `rahasia456`.
-5. **Jalankan server.**
-   ```bash
-   npm start
-   ```
-   Alternatif: `node src/server.js`.
-6. Jika berhasil, terminal menampilkan:
-   ```
-   Server jalan di http://localhost:3000
-   ```
-7. **Buka browser** dan akses <http://localhost:3000>.
-8. Untuk menghentikan server, tekan `Ctrl + C` di terminal.
+Sebelum menjalankan aplikasi, pastikan perangkat sudah memiliki:
 
-### 6.3 Mengganti port (opsional)
+- Node.js versi 20 atau lebih baru.
+- npm.
+- Git.
+- Akun PostgreSQL melalui Neon.
+- Koneksi internet untuk instalasi dependensi dan koneksi database.
+
+### 8.2 Clone Repository
+
+Buka terminal, kemudian jalankan:
+
 ```bash
-# Windows PowerShell
-$env:PORT=4000; npm start
+git clone https://github.com/Maitasya/Lombamate_may_026.git lombamate
+cd lombamate
+```
 
-# Linux / macOS
+### 8.3 Instalasi Dependensi
+
+Jalankan perintah:
+
+```bash
+npm install
+```
+
+Perintah tersebut akan memasang seluruh dependensi berdasarkan `package.json` dan `package-lock.json`.
+
+### 8.4 Konfigurasi Database
+
+Buat file `.env` di direktori utama proyek.
+
+Isi dengan konfigurasi koneksi PostgreSQL dari Neon:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST/dbname?sslmode=require"
+```
+
+Ganti nilai konfigurasi sesuai informasi koneksi database milik masing-masing.
+
+**Penting:** Jangan membagikan isi `.env` atau mengunggahnya ke repository publik.
+
+### 8.5 Membuat Tabel dan Mengisi Data
+
+Jalankan:
+
+```bash
+npx prisma db push
+npm run seed
+```
+
+Keterangan:
+- `npx prisma db push`: menyinkronkan skema Prisma dengan database.
+- `npm run seed`: mengisi database menggunakan data awal dari folder `src/data/`.
+
+### 8.6 Menjalankan Server
+
+Jalankan:
+
+```bash
+npm start
+```
+
+Alternatif:
+
+```bash
+node src/server.js
+```
+
+Jika berhasil, terminal akan menampilkan:
+
+```text
+Server jalan di http://localhost:3000
+```
+
+### 8.7 Membuka Aplikasi
+
+Buka browser dan akses:
+
+http://localhost:3000
+
+Untuk menghentikan server, tekan `Ctrl + C` pada terminal.
+
+### 8.8 Mengganti Port (Opsional)
+
+Windows PowerShell:
+
+```powershell
+$env:PORT=4000; npm start
+```
+
+Linux/macOS:
+
+```bash
 PORT=4000 npm start
 ```
 
-### 6.4 Alur mencoba aplikasi
-1. Buka halaman **Masuk**, lalu daftar akun baru dan masuk.
-2. Klik **Tambah Partner**, isi form, lalu klik **Tambah Partner** → kartu baru muncul di Beranda **(POST)**.
-3. Pada kartu milik sendiri, klik **Edit**, ubah isi form, lalu **Simpan Perubahan** → kartu berubah **(PUT)**.
-4. Klik **Hapus** lalu **Ya, Hapus** → kartu hilang **(DELETE)**.
-5. Beranda otomatis memuat seluruh data setiap halaman dibuka **(GET)**.
+---
 
-### 6.5 Pemecahan masalah
-| Masalah | Penyebab dan solusi |
+## 9. Alur Penggunaan Aplikasi
+
+1. Buka halaman Masuk dan buat akun baru.
+2. Login menggunakan akun yang telah dibuat.
+3. Buka halaman Tambah Partner untuk membuat postingan kebutuhan anggota tim.
+4. Isi informasi lomba, peran yang dibutuhkan, kuota, deadline, dan kontak.
+5. Setelah disimpan, postingan akan tampil di halaman Beranda.
+6. Pengguna lain dapat mencari postingan dan mengajukan permintaan bergabung.
+7. Pemilik postingan dapat melihat permintaan dan memilih untuk menerima atau menolak.
+8. Pengguna dapat mengelola profil serta melihat tim yang diikuti.
+9. Pemilik postingan dapat mengedit atau menghapus postingan miliknya.
+
+---
+
+## 10. Pengujian Aplikasi
+
+### 10.1 Pengujian melalui Web
+
+| No. | Operasi | Keterangan | Bukti |
+|---:|---|---|---|
+| 1 | GET | Seluruh kartu partner tampil di Beranda | `screenshots/01-beranda-tampilan.png` |
+| 2 | POST | Form Tambah Partner terisi | `screenshots/03-post-form-terisi.png` |
+| 3 | POST | Kartu baru muncul di Beranda | `screenshots/04-post-beranda-kartu-baru.png` |
+| 4 | PUT | Form Edit tampil | `screenshots/05-put-form-edit.png` |
+| 5 | PUT | Kuota berubah setelah disimpan | `screenshots/06-put-hasil-kuota-berubah.png` |
+| 6 | DELETE | Dialog konfirmasi penghapusan | `screenshots/07-delete-konfirmasi.png` |
+| 7 | DELETE | Kartu hilang dari Beranda | `screenshots/08-delete-hasil-kartu-hilang.png` |
+
+### 10.2 Pengujian API melalui Postman
+
+| No. | Pengujian | Hasil yang Diharapkan | Bukti |
+|---:|---|---|---|
+| 1 | `GET /api/partners` | `200 OK` | `screenshots/09-postman-get-semua-partner.png` |
+| 2 | `POST /api/partners` | `201 Created` | `screenshots/10-postman-post-tambah-partner.png` |
+| 3 | `PUT /api/partners/:id` | `200 OK` | `screenshots/12-postman-put-ubah-partner.png` |
+| 4 | `DELETE /api/partners/:id` | `200 OK` | `screenshots/13-postman-delete-hapus-partner.png` |
+| 5 | POST dengan data kosong | `400 Bad Request` | `screenshots/15-postman-post-gagal-400.png` |
+| 6 | PUT oleh bukan pemilik | `403 Forbidden` | `screenshots/16-postman-put-bukan-pemilik-403.png` |
+
+### 10.3 Pengujian Keamanan
+
+Pengujian keamanan dilakukan untuk memastikan server tidak memberikan akses kepada pengguna yang tidak memiliki hak.
+
+Beberapa skenario pengujian:
+
+- Mengakses endpoint yang membutuhkan login tanpa autentikasi.
+- Mengedit postingan menggunakan akun yang bukan pemilik.
+- Menghapus postingan menggunakan akun yang bukan pemilik.
+- Mengubah status permintaan gabung tanpa hak sebagai pemilik.
+- Memeriksa sesi login dan proses logout.
+- Memeriksa penyimpanan password dalam bentuk hash.
+
+> Letakkan seluruh screenshot yang digunakan pada folder `screenshots/` di direktori yang sama dengan README ini. Pastikan nama file dan lokasi gambar sesuai dengan tabel dokumentasi.
+
+---
+
+## 11. Pemecahan Masalah
+
+| Masalah | Penyebab dan Solusi |
 |---|---|
-| `Cannot find module 'express'` | Belum menjalankan `npm install`. |
-| `PrismaClientInitializationError` / `P1001` (tidak bisa ke database) | `DATABASE_URL` salah atau kosong; cek isi `.env` dan koneksi internet (Neon butuh `sslmode=require`). |
-| Error `User was not found` saat masuk / tabel kosong | Belum menjalankan `npx prisma db push` dan `npm run seed` (lihat 6.2 langkah 4). |
-| `npm start` tidak dikenali | Pastikan terminal berada di folder `lombamate` (yang berisi `package.json`). |
-| `EADDRINUSE: address already in use` | Port 3000 sedang dipakai; ganti port (lihat 6.3). |
-| Halaman menampilkan "Tidak bisa terhubung ke server" | Server belum berjalan; jalankan `npm start`. |
+| `Cannot find module 'express'` | Dependensi belum terpasang. Jalankan `npm install`. |
+| `PrismaClientInitializationError` atau `P1001` | Periksa `DATABASE_URL`, koneksi internet, dan konfigurasi Neon. |
+| Akun tidak ditemukan saat login | Pastikan `npx prisma db push` dan `npm run seed` sudah dijalankan. |
+| `npm start` tidak dikenali | Pastikan terminal berada di direktori proyek yang memiliki `package.json`. |
+| `EADDRINUSE` | Port sedang digunakan proses lain. Gunakan port berbeda. |
+| Halaman tidak bisa terhubung ke server | Pastikan server Express sedang berjalan. |
+| Login tidak berhasil | Periksa username, password, dan status sesi. |
+| Database tidak terhubung | Periksa kembali konfigurasi koneksi PostgreSQL pada `.env`. |
 
 ---
 
-## 7. Hasil dan Pengujian
+## 12. Kesimpulan
 
-> Letakkan folder `screenshots/` di samping README ini agar gambar tampil.
+LombaMate berhasil dikembangkan sebagai aplikasi web pencari partner lomba mahasiswa menggunakan Express.js sebagai back-end dan HTML, CSS, serta JavaScript sebagai front-end.
 
-### 7.1 Pengujian melalui web
+Aplikasi ini menerapkan empat operasi utama REST API, yaitu GET, POST, PUT, dan DELETE yang terhubung dengan antarmuka web. Selain itu, terdapat fitur autentikasi, pengelolaan profil, pengajuan permintaan bergabung, serta pembatasan hak akses berdasarkan identitas pengguna.
 
-| No | Operasi | Keterangan | Bukti |
-|---|---|---|---|
-| 1 | GET | Seluruh kartu partner tampil di Beranda | ![](screenshots/01-beranda-tampilan.png) |
-| 2 | POST | Form Tambah Partner terisi | ![](screenshots/03-post-form-terisi.png) |
-| 3 | POST | Kartu baru muncul di Beranda | ![](screenshots/04-post-beranda-kartu-baru.png) |
-| 4 | PUT | Form Edit | ![](screenshots/05-put-form-edit.png) |
-| 5 | PUT | Kuota berubah setelah disimpan | ![](screenshots/06-put-hasil-kuota-berubah.png) |
-| 6 | DELETE | Dialog konfirmasi hapus | ![](screenshots/07-delete-konfirmasi.png) |
-| 7 | DELETE | Kartu hilang dari Beranda | ![](screenshots/08-delete-hasil-kartu-hilang.png) |
+Pengelolaan data dilakukan menggunakan Prisma ORM dengan PostgreSQL sebagai database utama. Dengan demikian, data aplikasi tersimpan secara persisten dan tidak bergantung pada penyimpanan JSON saat aplikasi berjalan.
 
-### 7.2 Pengujian API dengan Postman
+Melalui LombaMate, mahasiswa diharapkan dapat lebih mudah menemukan rekan satu tim yang sesuai dengan kebutuhan kompetisi dan bersama-sama mewujudkan prestasi.
 
-| No | Pengujian | Hasil yang diharapkan | Bukti |
-|---|---|---|---|
-| 1 | `GET /api/partners` | `200 OK` | ![](screenshots/09-postman-get-semua-partner.png) |
-| 2 | `POST /api/partners` | `201 Created` | ![](screenshots/10-postman-post-tambah-partner.png) |
-| 3 | `PUT /api/partners/:id` | `200 OK` | ![](screenshots/12-postman-put-ubah-partner.png) |
-| 4 | `DELETE /api/partners/:id` | `200 OK` | ![](screenshots/13-postman-delete-hapus-partner.png) |
-| 5 | `POST` data kosong | `400 Bad Request` | ![](screenshots/15-postman-post-gagal-400.png) |
-| 6 | `PUT` oleh bukan pemilik | `403 Forbidden` | ![](screenshots/16-postman-put-bukan-pemilik-403.png) |
+### Pengembangan Selanjutnya
 
-> Bagian 7.2 hanya diisi jika kamu membuat screenshot Postman; hapus bagian ini jika tidak dipakai.
+Beberapa pengembangan yang dapat dilakukan pada versi berikutnya:
 
----
-
-## 8. Kesimpulan
-Aplikasi **LombaMate** berhasil dibangun dengan Express sebagai back-end dan HTML, CSS, JavaScript sebagai front-end. Keempat operasi wajib (GET, POST, PUT, DELETE) berjalan dan terhubung ke antarmuka web, serta dilengkapi validasi data dan pembatasan hak akses pemilik. Seluruh data — postingan partner, permintaan gabung, profil, akun, dan sesi login — kini tersimpan **persisten di PostgreSQL (Neon) melalui Prisma ORM**, sehingga tetap ada setelah server dimatikan. Autentikasi ditangani sepenuhnya di server: password di-hash bcrypt, sesi cookie HttpOnly diverifikasi ke database di setiap permintaan, dan frontend tidak dipercaya menyimpan identitas.
-
-### Pengembangan lanjutan
-- Kirim tautan "lupa password" lewat email sungguhan (layanan SMTP seperti Resend/Gmail).
-- Rate limiting untuk seluruh endpoint (mis. `express-rate-limit`), bukan hanya login.
-- Transaksi kuota partner (`prisma.$transaction`) agar benar-benar atomik.
+- Integrasi layanan email sungguhan untuk pengiriman tautan reset password.
+- Penguatan rate limiting pada endpoint selain autentikasi.
+- Penggunaan transaksi database untuk menjaga konsistensi perubahan kuota.
+- Pengembangan notifikasi ketika ada permintaan bergabung baru.
+- Peningkatan pengalaman pengguna melalui penyempurnaan antarmuka.
 
 ---
 
 <div align="center">
 
-Dibuat untuk tugas modul **Express API** · Institut Teknologi Sepuluh Nopember
+**LombaMate — Temukan Partner, Wujudkan Prestasi.**
+
+Dibuat untuk tugas Modul Express API
+Institut Teknologi Sepuluh Nopember
 
 </div>
