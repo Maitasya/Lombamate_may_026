@@ -1,0 +1,788 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap");
+
+/* ---------- Variabel & reset ---------- */
+:root {
+  --navy: #34449a;
+  --navy-dark: #2b3a8c;
+  --blue: #5b7fe6;
+  --blue-soft: #dfe9fb;
+  --blue-bg: #e9f0fc;
+  --text: #3c4a86;
+  --text-soft: #5f6c9c;
+  --yellow: #fdd979;
+  --yellow-soft: #fde9a4;
+  --white: #ffffff;
+  --font-body: "Nunito", "Segoe UI", sans-serif;
+  --font-hand: "Patrick Hand", "Comic Sans MS", "Chalkboard SE", sans-serif;
+  --font-note: "Caveat", "Patrick Hand", "Comic Sans MS", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--text);
+  padding: 18px 40px 40px;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse 380px 120px at 4% 100%, rgba(200, 190, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse 420px 130px at 98% 100%, rgba(190, 215, 255, 0.6), transparent 70%),
+    radial-gradient(ellipse 500px 160px at 70% 38%, rgba(255, 255, 255, 0.75), transparent 70%),
+    radial-gradient(ellipse 600px 200px at 10% 30%, rgba(255, 255, 255, 0.55), transparent 70%),
+    linear-gradient(180deg, #e3ecfb 0%, #edf3fc 55%, #f3f7fd 100%);
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Bintang / sparkle ---------- */
+.spark {
+  color: var(--yellow);
+  line-height: 1;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+.navbar {
+  position: relative;
+  z-index: 100; /* navbar & dropdown tetap di atas isi halaman (hero/kartu) */
+  display: flex;
+  align-items: center;
+  height: 86px;
+  padding: 0 26px 0 28px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 42px;
+  box-shadow: 0 6px 24px rgba(110, 140, 210, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: 66px;
+  height: auto;
+}
+
+.brand-name {
+  font-family: var(--font-hand);
+  font-size: 46px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.brand-accent {
+  color: var(--blue);
+}
+
+.brand-divider {
+  width: 1.5px;
+  height: 28px;
+  margin: 0 22px 0 22px;
+  background: #c7d3f0;
+}
+
+.brand-tagline {
+  font-family: var(--font-hand);
+  font-size: 16px;
+  color: var(--navy);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.spark-nav {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 22px;
+  transform: rotate(75deg);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  margin-right: 38px;
+}
+
+.nav-link {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 21px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--navy);
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+  background: var(--blue-bg);
+}
+
+.nav-link.active {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.nav-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-link.active .nav-icon {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--navy);
+}
+
+.user-avatar {
+  width: 56px;
+  height: 56px;
+  padding: 3px;
+  object-fit: contain;
+  background: var(--blue-soft);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(110, 140, 210, 0.25);
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5;
+  transition: transform 0.2s;
+}
+
+/* ---------- Dropdown menu pengguna ---------- */
+.user-menu-wrap {
+  position: relative;
+}
+
+.user-menu-wrap.open .chevron {
+  transform: rotate(180deg);
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 235px;
+  padding: 8px;
+  background: var(--white);
+  border: 2px solid var(--blue-soft);
+  border-radius: 18px;
+  box-shadow: 0 14px 32px rgba(52, 68, 154, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  z-index: 60;
+}
+
+.user-menu-wrap.open .user-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.user-dropdown-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--blue-bg);
+  margin-bottom: 6px;
+}
+
+.user-dropdown-avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  object-fit: contain;
+  background: var(--blue-soft);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(110, 140, 210, 0.25);
+}
+
+.user-dropdown-id {
+  min-width: 0;
+}
+
+.user-dropdown-name {
+  font-weight: 800;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-dropdown-username {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.user-dropdown-item,
+.user-dropdown-item-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s, color 0.2s;
+}
+
+.user-dropdown-item:hover,
+.user-dropdown-item-edit:hover {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.user-dropdown-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-soft);
+  transition: color 0.2s;
+}
+
+.user-dropdown-item:hover .user-dropdown-icon,
+.user-dropdown-item-edit:hover .user-dropdown-icon {
+  color: var(--blue);
+}
+
+/* ---------- Tombol Keluar di dropdown ---------- */
+.user-dropdown-item-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-top: 2px dashed #d5e0f6;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #c93b4d;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.user-dropdown-item-logout:hover {
+  background: #fdf2f4;
+}
+
+.user-dropdown-item-logout .user-dropdown-icon {
+  color: #c93b4d;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 490px;
+  padding: 36px 0 24px 55px;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 2;
+  width: 680px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  background: #dbe6fa;
+  border-radius: 18px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--navy);
+}
+
+.hero-badge .spark {
+  font-size: 15px;
+  color: #f5e7b3;
+}
+
+.hero-title {
+  margin-top: 16px;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.hero-greeting {
+  display: block;
+  white-space: nowrap;
+  font-size: 40px;
+  line-height: 1.15;
+}
+
+.hero-headline {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 62px;
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+}
+
+.hero-headline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 5px;
+  background: var(--yellow);
+  border-radius: 4px;
+  transform: rotate(-0.6deg);
+}
+
+.hero-accent {
+  color: var(--blue);
+}
+
+.wave {
+  display: inline-block;
+  font-size: 34px;
+  transform-origin: 70% 80%;
+  animation: wave 2.4s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0); }
+  10%, 30%      { transform: rotate(14deg); }
+  20%, 40%      { transform: rotate(-8deg); }
+  50%           { transform: rotate(10deg); }
+}
+
+.hero-desc {
+  margin-top: 14px;
+  font-family: var(--font-hand);
+  font-size: 19px;
+  line-height: 1.45;
+  letter-spacing: 0.2px;
+  color: var(--text);
+}
+
+.hero-title + .hero-desc {
+  margin-top: 20px;
+}
+
+.hero-desc strong {
+  font-family: var(--font-body);
+  font-weight: 800;
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  height: 52px;
+  padding: 0 34px;
+  background: var(--yellow);
+  border-radius: 26px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--navy);
+  box-shadow: 0 6px 16px rgba(253, 217, 121, 0.55);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(253, 217, 121, 0.7);
+}
+
+.btn-arrow {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.4;
+}
+
+/* ---------- Sisi kanan hero ---------- */
+.hero-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-mascot {
+  position: absolute;
+  left: 655px;
+  top: 82px;
+  width: 392px;
+  height: auto;
+  filter: drop-shadow(0 8px 14px rgba(70, 90, 170, 0.15));
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.speech-text {
+  position: absolute;
+  left: 995px;
+  top: 92px;
+  font-family: var(--font-hand);
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--navy);
+  transform: rotate(-14deg);
+}
+
+/* Garis lengkung kecil di bawah teks "Yuk, cari..." */
+.speech-text::after {
+  content: "";
+  position: absolute;
+  left: 82px;
+  top: 78px;
+  width: 36px;
+  height: 64px;
+  border-right: 2px solid var(--navy);
+  border-radius: 0 60px 60px 0;
+  transform: rotate(10deg);
+}
+
+/* ---------- Sticky note ---------- */
+.sticky-note {
+  position: absolute;
+  left: 1142px;
+  top: 160px;
+  width: 282px;
+  padding: 36px 26px 34px;
+  background: linear-gradient(160deg, #fff0b8 0%, #fde39a 100%);
+  border-radius: 6px 6px 6px 40px;
+  box-shadow: 0 8px 20px rgba(220, 180, 70, 0.28);
+  text-align: center;
+  transform: rotate(-8deg);
+}
+
+.sticky-note::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(225deg, #f3f6fd 50%, #f7d980 50%);
+  border-radius: 0 6px 0 12px;
+  box-shadow: -2px 2px 4px rgba(200, 160, 50, 0.18);
+}
+
+.sticky-title {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-note);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--navy);
+}
+
+.sticky-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 3px;
+  background: var(--blue);
+  border-radius: 3px;
+  opacity: 0.6;
+}
+
+.sticky-text {
+  margin-top: 22px;
+  font-family: var(--font-note);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--navy);
+}
+
+/* ---------- Pesawat kertas & bintang dekorasi ---------- */
+.paper-plane {
+  position: absolute;
+  left: 1275px;
+  top: 38px;
+  width: 74px;
+  height: 56px;
+  color: var(--navy);
+  stroke-width: 2.6;
+  fill: #fff;
+  transform: rotate(-4deg);
+}
+
+.hero-visual::before {
+  /* jejak garis putus-putus pesawat */
+  content: "";
+  position: absolute;
+  left: 1340px;
+  top: 62px;
+  width: 170px;
+  height: 90px;
+  border-top: 2.5px dashed #8fa6e6;
+  border-right: 2.5px dashed #8fa6e6;
+  border-radius: 0 120px 0 0;
+  transform: rotate(8deg);
+  opacity: 0.8;
+}
+
+.hero-visual .spark {
+  position: absolute;
+  text-shadow: 0 2px 4px rgba(240, 190, 60, 0.35);
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.spark-1 { left: 962px; top: 66px;  font-size: 46px; }
+.spark-2 { left: 600px; top: 252px; font-size: 40px; animation-delay: 0.8s; }
+.spark-3 { left: 1048px; top: 408px; font-size: 24px; animation-delay: 1.4s; }
+.spark-4 { left: 1428px; top: 812px; font-size: 30px; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.65; transform: scale(0.88); }
+}
+
+/* =========================================================
+   TEMAN YANG SEDANG MENCARI PARTNER
+   ========================================================= */
+.partners {
+  position: relative;
+  margin: 8px 10px 0;
+  padding: 24px 45px 40px;
+  background: rgba(252, 253, 255, 0.88);
+  border-radius: 44px 44px 0 0;
+  box-shadow: 0 -4px 30px rgba(130, 160, 220, 0.12);
+}
+
+.partners-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.partners-icon {
+  width: 46px;
+  height: 36px;
+  margin-top: 6px;
+  color: var(--navy);
+  stroke-width: 2.4;
+  fill: #fff;
+}
+
+.partners-title {
+  font-family: var(--font-hand);
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: var(--navy);
+}
+
+.heart {
+  font-size: 24px;
+  vertical-align: 1px;
+}
+
+.partners-subtitle {
+  margin-top: 4px;
+  font-size: 16.5px;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+/* ---------- Daftar & empty state ---------- */
+.partner-list {
+  min-height: 208px;
+}
+
+.partner-list:has(.empty-state) {
+  display: grid;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 208px;
+  background: rgba(247, 250, 255, 0.9);
+  border: 2px dashed #cfdbf3;
+  border-radius: 22px;
+}
+
+.empty-mascot {
+  width: 100px;
+  height: auto;
+  margin-top: 8px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.empty-text {
+  font-size: 17px;
+  font-weight: 600;
+  color: #6f7fb0;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+/* Tagline disembunyikan di layar laptop agar menu tidak terbungkus */
+@media (max-width: 1480px) {
+  .brand-tagline,
+  .brand-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 1280px) {
+  .hero {
+    height: auto;
+    padding-bottom: 20px;
+  }
+
+  .hero-visual {
+    position: relative;
+    inset: auto;
+    height: 460px;
+    margin-top: 10px;
+  }
+
+  .hero-mascot { left: 50%; top: 20px; transform: translateX(-70%); animation: none; }
+  .speech-text { left: 62%; top: 30px; }
+  .sticky-note { left: auto; right: 4%; top: 160px; }
+  .paper-plane { left: auto; right: 12%; top: 0; }
+  .hero-visual::before,
+  .spark-4 { display: none; }
+}
+
+@media (max-width: 860px) {
+  body {
+    padding: 12px 14px 24px;
+  }
+
+  .navbar {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 28px;
+  }
+
+  .nav-menu {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .nav-link span {
+    white-space: nowrap;
+  }
+
+  .user-menu-wrap {
+    margin-left: auto;
+  }
+
+  .hero {
+    padding: 28px 8px 0;
+  }
+
+  .hero-text {
+    width: 100%;
+  }
+
+  .hero-greeting { font-size: 30px; }
+  .hero-headline { font-size: 44px; }
+  .hero-desc br { display: none; }
+
+  .hero-visual {
+    height: 520px;
+  }
+
+  .hero-mascot { width: 300px; transform: translateX(-50%); left: 50%; }
+  .speech-text { display: none; }
+  .sticky-note { top: 330px; right: 50%; transform: translateX(50%) rotate(-4deg); width: 260px; }
+  .paper-plane { display: none; }
+
+  .partners {
+    padding: 20px 18px 28px;
+    border-radius: 32px 32px 0 0;
+  }
+
+  .partners-title { font-size: 24px; }
+}

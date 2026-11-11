@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Maitasya Rohmatul Ula",
+    "campus": "ITS",
+    "major": "TI",
+    "contact": "08947783923",
+    "bio": "Senior desain, 3x finalis GEMASTIK",
+    "photo": "",
+    "looking": true,
+    "interests": [
+      "Desain"
+    ],
+    "skills": [
+      "Figma"
+    ],
+    "history": [],
+    "username": "perintis_prestasi",
+    "updatedAt": "2026-11-01T05:35:56.767Z"
+  },
+  {
+    "name": "Leci Kecil",
+    "campus": "UB",
+    "major": "Biologi",
+    "contact": "lecikecil251@gmail.com",
+    "bio": "suka lomba hobi lomba tapi belum hoki aja",
+    "looking": true,
+    "interests": [
+      "riset"
+    ],
+    "skills": [
+      "ekpserien lab"
+    ],
+    "history": [
+      {
+        "title": "mendali silver pimnas 39 pkm re",
+        "result": ""
+      }
+    ],
+    "username": "mawar123",
+    "updatedAt": "2026-11-03T01:39:50.446Z"
+  }
+]

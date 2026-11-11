@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Partner - LombaMate</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profil.css">
+  <link rel="stylesheet" href="tambah-partner.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="js/utils.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/tambah-partner.js" defer></script>
+</head>
+<body data-requires-auth="true">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <a href="index.html" class="brand">
+      <img src="assets/mascot-kepala.png" alt="Logo LombaMate" class="brand-logo">
+      <span class="brand-name">Lomba<span class="brand-accent">Mate</span></span>
+    </a>
+
+    <span class="brand-divider"></span>
+    <p class="brand-tagline">Temukan Partner, Wujudkan Prestasi Yuk! <span class="spark spark-nav">âœ¦</span></p>
+
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>
+        </svg>
+        <span>Beranda</span>
+      </a>
+      <a href="profil.html" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+        </svg>
+        <span>Profil Saya</span>
+      </a>
+      <a href="tambah-partner.html" class="nav-link active">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3v9"/>
+          <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+        </svg>
+        <span>Tambah Partner</span>
+      </a>
+    </nav>
+
+    <div class="user-menu-wrap">
+      <button type="button" class="user-menu" aria-label="Menu pengguna" aria-haspopup="true" aria-expanded="false">
+        <img src="assets/mascot-kepala.png" alt="Foto profil" class="user-avatar">
+        <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+
+      <div class="user-dropdown" role="menu">
+        <div class="user-dropdown-head">
+          <img src="assets/mascot-kepala.png" alt="Foto profil" class="user-dropdown-avatar">
+          <div class="user-dropdown-id">
+            <p class="user-dropdown-name">Pejuang Prestasi</p>
+            <p class="user-dropdown-username">Belum ada profil</p>
+          </div>
+        </div>
+        <a href="profil.html" class="user-dropdown-item" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+          </svg>
+          Profil Saya
+        </a>
+        <a href="index.html#timku" class="user-dropdown-item" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="8" cy="8.5" r="3.5"/>
+            <circle cx="16.5" cy="9.5" r="2.5"/>
+            <path d="M2.5 20c0-3.3 2.5-5.4 5.5-5.4s5.5 2.1 5.5 5.4"/>
+            <path d="M14.5 14.9c3.2-.6 7 1 7 4.6"/>
+          </svg>
+          Tim Saya
+        </a>
+        <a href="profil.html#form-profil" class="user-dropdown-item-edit" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>
+          </svg>
+          Edit Profil
+        </a>
+        <a href="tambah-partner.html" class="user-dropdown-item" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v9"/>
+            <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+          </svg>
+          Tambah Partner
+        </a>
+        <button type="button" class="user-dropdown-item-logout" role="menuitem" data-act="logout-all">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v9"/>
+            <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+          </svg>
+          Keluar semua perangkat
+        </button>
+        <button type="button" class="user-dropdown-item-logout" role="menuitem" data-act="logout">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v9"/>
+            <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+          </svg>
+          Keluar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-page add-page">
+
+    <!-- ================= HEADER ================= -->
+    <section class="profile-hero">
+      <span class="hero-badge"><span class="spark">âœ¦</span> <span id="page-badge-text">TAMBAH PARTNER</span></span>
+      <h1 class="profile-heading" id="page-title">Cari <span class="hero-accent">Partner Lombamu!</span> <span class="wave">ðŸš€</span></h1>
+      <p class="profile-subheading" id="page-subtitle">Isi detail lomba dan partner yang kamu butuhkan, biar teman seperjuangan bisa langsung menghubungimu.</p>
+    </section>
+
+    <div class="add-layout">
+
+      <!-- ================= FORM ================= -->
+      <form class="add-form" id="partner-form" novalidate>
+
+        <!-- 1. Kategori lomba -->
+        <section class="profile-section">
+          <div class="section-header">
+            <span class="section-icon">âœ¦</span>
+            <h2 class="section-title">1. Pilih Kategori Lomba</h2>
+          </div>
+
+          <div class="category-grid" id="category-grid">
+
+            <label class="category-card">
+              <input type="radio" name="category" value="teknologi" required>
+              <span class="category-body">
+                <span class="category-emoji">ðŸ’»</span>
+                <strong class="category-name">Teknologi &amp; IT</strong>
+                <small class="category-desc">Web, mobile, IoT, AI, data</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="desain">
+              <span class="category-body">
+                <span class="category-emoji">ðŸŽ¨</span>
+                <strong class="category-name">Desain &amp; Kreatif</strong>
+                <small class="category-desc">UI/UX, poster, video, fotografi</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="karya-tulis">
+              <span class="category-body">
+                <span class="category-emoji">ðŸ“</span>
+                <strong class="category-name">Karya Tulis</strong>
+                <small class="category-desc">LKTI, esai, PKM, artikel</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="bisnis">
+              <span class="category-body">
+                <span class="category-emoji">ðŸ“ˆ</span>
+                <strong class="category-name">Bisnis &amp; Startup</strong>
+                <small class="category-desc">Business case, pitching, ide bisnis</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="sains">
+              <span class="category-body">
+                <span class="category-emoji">ðŸ”¬</span>
+                <strong class="category-name">Sains &amp; Olimpiade</strong>
+                <small class="category-desc">Matematika, fisika, kimia, biologi</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="debat">
+              <span class="category-body">
+                <span class="category-emoji">ðŸŽ¤</span>
+                <strong class="category-name">Debat &amp; Public Speaking</strong>
+                <small class="category-desc">Debat, pidato, MC, story telling</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="teknik">
+              <span class="category-body">
+                <span class="category-emoji">ðŸ¤–</span>
+                <strong class="category-name">Teknik &amp; Robotik</strong>
+                <small class="category-desc">Robot, mesin, sipil, energi</small>
+              </span>
+            </label>
+
+            <label class="category-card">
+              <input type="radio" name="category" value="olahraga-seni">
+              <span class="category-body">
+                <span class="category-emoji">ðŸ†</span>
+                <strong class="category-name">Olahraga &amp; Seni</strong>
+                <small class="category-desc">E-sport, musik, tari, olahraga</small>
+              </span>
+            </label>
+
+          </div>
+        </section>
+
+        <!-- 2. Detail lomba -->
+        <section class="profile-section">
+          <div class="section-header">
+            <span class="section-icon">âœ¦</span>
+            <h2 class="section-title">2. Detail Lomba</h2>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group form-wide">
+              <label for="input-competition">Nama Lomba</label>
+              <select id="input-competition" name="competition" required>
+                <option value="">-- Pilih lomba --</option>
+
+                <optgroup label="ðŸ’» Teknologi &amp; IT">
+                  <option>GEMASTIK</option>
+                  <option>Hackathon</option>
+                  <option>Web Development Competition</option>
+                  <option>Mobile App Development</option>
+                  <option>Competitive Programming (ICPC / KOMPAS)</option>
+                  <option>Data Science / Data Mining Competition</option>
+                  <option>Capture The Flag (Cyber Security)</option>
+                  <option>IoT &amp; Smart System Competition</option>
+                  <option>Game Development</option>
+                  <option>AI &amp; Machine Learning Competition</option>
+                  <option>Network &amp; Infrastructure Competition</option>
+                </optgroup>
+
+                <optgroup label="ðŸŽ¨ Desain &amp; Kreatif">
+                  <option>UI/UX Design Competition</option>
+                  <option>Desain Poster / Infografis</option>
+                  <option>Video Kreatif / Film Pendek</option>
+                  <option>Lomba Fotografi</option>
+                  <option>Desain Logo &amp; Branding</option>
+                  <option>Animasi &amp; Motion Graphic</option>
+                </optgroup>
+
+                <optgroup label="ðŸ“ Karya Tulis">
+                  <option>PKM (Program Kreativitas Mahasiswa)</option>
+                  <option>LKTI (Lomba Karya Tulis Ilmiah)</option>
+                  <option>KDMI (Kompetisi Debat &amp; Esai)</option>
+                  <option>Lomba Esai</option>
+                  <option>Lomba Artikel / Opini</option>
+                  <option>Lomba Cerpen &amp; Puisi</option>
+                </optgroup>
+
+                <optgroup label="ðŸ“ˆ Bisnis &amp; Startup">
+                  <option>Business Case Competition</option>
+                  <option>Business Plan Competition</option>
+                  <option>Startup Pitching</option>
+                  <option>Marketing Plan Competition</option>
+                  <option>Lomba Ide Bisnis</option>
+                </optgroup>
+
+                <optgroup label="ðŸ”¬ Sains &amp; Olimpiade">
+                  <option>OSN / KSN (Olimpiade Sains)</option>
+                  <option>Olimpiade Matematika</option>
+                  <option>Olimpiade Fisika</option>
+                  <option>Olimpiade Kimia</option>
+                  <option>Olimpiade Biologi</option>
+                  <option>Olimpiade Astronomi</option>
+                  <option>Cerdas Cermat</option>
+                </optgroup>
+
+                <optgroup label="ðŸŽ¤ Debat &amp; Public Speaking">
+                  <option>Debat Bahasa Indonesia</option>
+                  <option>Debat Bahasa Inggris (NUDC / ADC)</option>
+                  <option>Lomba Pidato</option>
+                  <option>Story Telling</option>
+                  <option>Model United Nations (MUN)</option>
+                </optgroup>
+
+                <optgroup label="ðŸ¤– Teknik &amp; Robotik">
+                  <option>Kontes Robot Indonesia (KRI)</option>
+                  <option>Kontes Robot Terbang</option>
+                  <option>Kompetisi Mobil Hemat Energi</option>
+                  <option>Kompetisi Jembatan Indonesia</option>
+                  <option>Kompetisi Desain Arsitektur</option>
+                  <option>Kompetisi Energi Terbarukan</option>
+                </optgroup>
+
+                <optgroup label="ðŸ† Olahraga &amp; Seni">
+                  <option>E-Sport (Mobile Legends, Valorant, dll.)</option>
+                  <option>Futsal / Basket / Voli</option>
+                  <option>Badminton / Tenis Meja</option>
+                  <option>Lomba Musik &amp; Band</option>
+                  <option>Lomba Tari &amp; Paduan Suara</option>
+                  <option>Kompetisi Catur</option>
+                </optgroup>
+
+                <optgroup label="âœ¨ Lainnya">
+                  <option value="lainnya">Lomba lainnya (tulis sendiri)</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div class="form-group form-wide" id="other-competition-wrap" hidden>
+              <label for="input-competition-other">Nama Lomba Lainnya</label>
+              <input type="text" id="input-competition-other" name="competition_other" placeholder="Tulis nama lombanya">
+            </div>
+
+            <div class="form-group">
+              <label for="input-organizer">Penyelenggara</label>
+              <input type="text" id="input-organizer" name="organizer" placeholder="Contoh: Kemendikbudristek, HIMATIKA ITS">
+            </div>
+
+            <div class="form-group">
+              <label for="input-level">Tingkat Lomba</label>
+              <select id="input-level" name="level">
+                <option value="">-- Pilih tingkat --</option>
+                <option>Sekolah</option>
+                <option>Kampus / Universitas</option>
+                <option>Kota / Kabupaten</option>
+                <option>Provinsi</option>
+                <option>Nasional</option>
+                <option>Internasional</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="input-deadline">Batas Pendaftaran</label>
+              <input type="date" id="input-deadline" name="deadline">
+            </div>
+
+            <div class="form-group">
+              <label for="input-link">Link Info Lomba</label>
+              <input type="url" id="input-link" name="link" placeholder="https://...">
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3. Partner yang dicari -->
+        <section class="profile-section">
+          <div class="section-header">
+            <span class="section-icon">âœ¦</span>
+            <h2 class="section-title">3. Partner yang Kamu Cari</h2>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="input-team-size">Jumlah Anggota Tim</label>
+              <select id="input-team-size" name="team_size">
+                <option value="">-- Pilih jumlah --</option>
+                <option>Individu (cari teman latihan)</option>
+                <option>2 orang</option>
+                <option>3 orang</option>
+                <option>4 orang</option>
+                <option>5 orang</option>
+                <option>6 orang atau lebih</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="input-slots">Butuh Berapa Partner Lagi?</label>
+              <input type="number" id="input-slots" name="slots" min="1" max="10" placeholder="Contoh: 2">
+            </div>
+
+          </div>
+
+          <h3 class="section-subtitle">Peran yang Dibutuhkan</h3>
+          <div class="chip-group" id="role-group">
+            <label class="chip"><input type="checkbox" name="roles" value="Frontend"><span>Frontend</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Backend"><span>Backend</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="UI/UX Designer"><span>UI/UX Designer</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Data Analyst"><span>Data Analyst</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Penulis"><span>Penulis</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Presenter"><span>Presenter</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Business Analyst"><span>Business Analyst</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Desainer Grafis"><span>Desainer Grafis</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Video Editor"><span>Video Editor</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Hardware / IoT"><span>Hardware / IoT</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Project Manager"><span>Project Manager</span></label>
+            <label class="chip"><input type="checkbox" name="roles" value="Siapa saja boleh"><span>Siapa saja boleh</span></label>
+          </div>
+
+          <h3 class="section-subtitle">Asal Partner</h3>
+          <div class="chip-group" id="scope-group">
+            <label class="chip"><input type="radio" name="scope" value="Satu kampus" checked><span>Satu kampus</span></label>
+            <label class="chip"><input type="radio" name="scope" value="Satu jurusan"><span>Satu jurusan</span></label>
+            <label class="chip"><input type="radio" name="scope" value="Beda kampus boleh"><span>Beda kampus boleh</span></label>
+            <label class="chip"><input type="radio" name="scope" value="Bebas"><span>Bebas</span></label>
+          </div>
+
+          <div class="form-group">
+            <label for="input-description">Deskripsi / Catatan untuk Calon Partner</label>
+            <textarea id="input-description" name="description" rows="4" placeholder="Ceritakan rencana timmu, target juara, jadwal latihan, atau kriteria partner yang kamu cari..."></textarea>
+          </div>
+        </section>
+
+        <!-- 4. Kontak -->
+        <section class="profile-section">
+          <div class="section-header">
+            <span class="section-icon">âœ¦</span>
+            <h2 class="section-title">4. Cara Menghubungimu</h2>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="input-contact-type">Lewat Apa?</label>
+              <select id="input-contact-type" name="contact_type" required>
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Telegram">Telegram</option>
+                <option value="Email">Email</option>
+                <option value="Discord">Discord</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="input-contact">Kontak</label>
+              <input type="text" id="input-contact" name="contact" placeholder="08xxxxxxxxxx / @username / email" required>
+            </div>
+          </div>
+
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+
+          <div class="form-actions">
+            <button type="reset" class="btn-secondary" id="btn-reset">Reset</button>
+            <button type="submit" class="btn-cta" id="btn-submit">
+              <span id="btn-submit-label">Tambah Partner</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14"/>
+                <path d="m13 6 6 6-6 6"/>
+              </svg>
+            </button>
+          </div>
+        </section>
+
+      </form>
+
+      <!-- ================= SISI KANAN: PREVIEW & TIPS ================= -->
+      <aside class="add-side">
+
+        <section class="profile-card preview-card">
+          <img src="assets/mascot-berdiri.png" alt="Maskot LombaMate" class="side-mascot">
+          <h2 class="side-title">Preview Kartumu</h2>
+
+          <div class="preview-box" id="preview-box">
+            <span class="status-badge status-open"><span class="status-dot"></span> Mencari partner</span>
+            <h3 class="preview-competition" id="preview-competition">Nama lomba</h3>
+            <p class="preview-category" id="preview-category">Kategori belum dipilih</p>
+            <ul class="tag-list" id="preview-roles">
+              <li class="tag">Peran dibutuhkan</li>
+            </ul>
+            <p class="preview-meta" id="preview-meta">Batas daftar: -</p>
+          </div>
+        </section>
+
+        <section class="profile-section tips-card">
+          <div class="section-header">
+            <span class="section-icon">ðŸ’¡</span>
+            <h2 class="section-title">Tips Cari Partner</h2>
+          </div>
+          <ul class="tips-list">
+            <li>Tulis peran yang jelas supaya partner tahu kontribusinya.</li>
+            <li>Cantumkan batas pendaftaran agar tim bisa bergerak cepat.</li>
+            <li>Ceritakan target dan jadwal latihanmu.</li>
+            <li>Gunakan kontak yang aktif dan mudah dihubungi.</li>
+          </ul>
+        </section>
+
+      </aside>
+    </div>
+
+  </main>
+
+</body>
+</html>

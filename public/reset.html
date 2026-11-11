@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganti Password - LombaMate</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profil.css">
+  <link rel="stylesheet" href="login.css">
+  <script src="js/utils.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/reset.js" defer></script>
+</head>
+<body data-page="reset">
+
+  <main class="auth-page auth-page-reset">
+
+    <!-- ================= KARTU FORM GANTI PASSWORD ================= -->
+    <section class="auth-card">
+      <img src="assets/mascot-kepala-tidur.png" alt="" class="auth-mascot-mini">
+
+      <form class="auth-form" id="form-reset" novalidate>
+        <h2 class="auth-title">Password Baru <span class="spark">✦</span></h2>
+        <p class="auth-desc">Buat password baru untuk akunmu. Setelah diganti, semua perangkat lain diminta masuk ulang.</p>
+
+        <div class="form-group">
+          <label for="reset-password">Password Baru</label>
+          <input type="password" id="reset-password" placeholder="Minimal 8 karakter" minlength="8" autocomplete="new-password" required>
+        </div>
+
+        <div class="form-group">
+          <label for="reset-confirm">Ulangi Password</label>
+          <input type="password" id="reset-confirm" placeholder="Ulangi password baru" autocomplete="new-password" required>
+        </div>
+
+        <p class="form-message" id="msg-reset" role="status" aria-live="polite"></p>
+
+        <button type="submit" class="btn-cta auth-submit">
+          Simpan Password Baru
+          <svg class="btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+        </button>
+
+        <p class="auth-hint">Ingat passwordmu? <a href="login.html">Masuk di sini</a></p>
+      </form>
+    </section>
+
+  </main>
+
+</body>
+</html>

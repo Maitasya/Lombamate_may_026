@@ -1,0 +1,391 @@
+/* tambah-partner.css */
+
+/* ---------- Layout 2 kolom ---------- */
+.add-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.add-side {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-wide {
+  grid-column: 1 / -1;
+}
+
+/* ---------- Select, date, number (samakan dgn input) ---------- */
+.form-group select,
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group input[type="url"] {
+  width: 100%;
+  padding: 13px 18px;
+  background: #f4f8ff;
+  border: 2px solid #dbe5f8;
+  border-radius: 18px;
+  font: 500 15.5px var(--font-body);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.form-group select {
+  appearance: none;
+  padding-right: 48px;
+  cursor: pointer;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b7fe6' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 16px;
+}
+
+.form-group select:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="url"]:focus {
+  background-color: #fff;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(91, 127, 230, 0.15);
+}
+
+.form-group select.invalid {
+  border-color: #e66b7a;
+  background-color: #fff6f7;
+}
+
+.form-group select optgroup {
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.form-group select option {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* =========================================================
+   KARTU KATEGORI
+   ========================================================= */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.category-card {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.category-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.category-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 18px 12px 16px;
+  text-align: center;
+  background: #f4f8ff;
+  border: 2px solid #dbe5f8;
+  border-radius: 24px;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.category-emoji {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 4px;
+  background: #fff;
+  border-radius: 50%;
+  font-size: 28px;
+  box-shadow: 0 3px 10px rgba(110, 140, 210, 0.18);
+}
+
+.category-name {
+  font-family: var(--font-hand);
+  font-size: 18px;
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+.category-desc {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-soft);
+}
+
+.category-card:hover .category-body {
+  transform: translateY(-3px);
+  border-color: #b9ccf3;
+}
+
+.category-card input:checked + .category-body {
+  background: #fff6d8;
+  border-color: var(--yellow);
+  box-shadow: 0 8px 20px rgba(253, 217, 121, 0.45);
+  transform: translateY(-3px);
+}
+
+.category-card input:checked + .category-body .category-emoji {
+  background: var(--yellow);
+}
+
+/* tanda centang di pojok kartu terpilih */
+.category-card input:checked + .category-body::after {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--navy);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.category-card input:focus-visible + .category-body {
+  box-shadow: 0 0 0 4px rgba(91, 127, 230, 0.3);
+}
+
+/* =========================================================
+   CHIP (peran & asal partner)
+   ========================================================= */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip span {
+  display: inline-block;
+  padding: 9px 18px;
+  background: #f4f8ff;
+  border: 2px solid #dbe5f8;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.chip:hover span {
+  border-color: #b9ccf3;
+  transform: translateY(-1px);
+}
+
+.chip input:checked + span {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+.chip input:focus-visible + span {
+  box-shadow: 0 0 0 4px rgba(91, 127, 230, 0.3);
+}
+
+#scope-group + .form-group,
+#role-group + .section-subtitle + .chip-group + .form-group {
+  margin-top: 22px;
+}
+
+.add-form .section-subtitle {
+  margin-top: 22px;
+}
+
+/* =========================================================
+   SISI KANAN: PREVIEW & TIPS
+   ========================================================= */
+.preview-card {
+  position: static;
+  padding: 0 22px 24px;
+  overflow: hidden;
+}
+
+.side-mascot {
+  width: 190px;
+  margin: 16px 0 10px;
+  filter: drop-shadow(0 8px 14px rgba(70, 90, 170, 0.15));
+  animation: float 4s ease-in-out infinite;
+}
+
+.side-title {
+  font-family: var(--font-hand);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.preview-box {
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+  padding: 20px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+  background: #fff;
+  border: 2px dashed #cfdbf3;
+  border-radius: 24px;
+}
+
+.preview-box .status-badge {
+  margin-top: 0;
+  padding: 5px 12px;
+  font-size: 12.5px;
+}
+
+.preview-competition {
+  font-family: var(--font-hand);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+.preview-category {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.preview-box .tag-list {
+  gap: 6px;
+}
+
+.preview-box .tag {
+  padding: 5px 12px;
+  font-size: 12.5px;
+}
+
+.preview-meta {
+  margin-top: 4px;
+  padding-top: 10px;
+  width: 100%;
+  border-top: 2px dashed #d5e0f6;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+/* ---------- Tips ---------- */
+.tips-card {
+  padding: 22px 24px 24px;
+  background: linear-gradient(160deg, #fff6d6 0%, #fdeaa8 100%);
+  border-color: #fff;
+}
+
+.tips-card .section-title {
+  font-size: 24px;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+}
+
+.tips-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--navy);
+}
+
+.tips-list li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #e8b53c;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 1280px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .add-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .add-side {
+    position: static;
+    order: -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+@media (max-width: 860px) {
+  .add-side {
+    grid-template-columns: 1fr;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .category-body {
+    padding: 14px 8px 12px;
+  }
+
+  .category-name {
+    font-size: 16px;
+  }
+
+  .category-desc {
+    font-size: 11px;
+  }
+}

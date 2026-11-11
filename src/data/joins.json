@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "partnerId": 3,
+    "username": "maya_putri",
+    "name": "Maya Putri",
+    "status": "menunggu",
+    "createdAt": "2026-11-01T05:45:27.559Z"
+  },
+  {
+    "id": 2,
+    "partnerId": 4,
+    "username": "mawar123",
+    "name": "bungaku",
+    "status": "menunggu",
+    "createdAt": "2026-11-03T01:37:56.733Z"
+  },
+  {
+    "id": 3,
+    "partnerId": 5,
+    "username": "mawar123",
+    "name": "bungaku",
+    "status": "menunggu",
+    "createdAt": "2026-11-03T01:38:03.645Z"
+  },
+  {
+    "id": 4,
+    "partnerId": 6,
+    "username": "zakiristek",
+    "name": "zaki",
+    "status": "diterima",
+    "createdAt": "2026-11-03T01:42:01.353Z"
+  },
+  {
+    "id": 5,
+    "partnerId": 4,
+    "username": "adi",
+    "name": "Adi Prasetyo",
+    "status": "diterima",
+    "createdAt": "2026-11-04T04:07:32.829Z"
+  }
+]

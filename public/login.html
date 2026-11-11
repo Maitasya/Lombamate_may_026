@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk - LombaMate</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profil.css">
+  <link rel="stylesheet" href="login.css">
+  <script src="js/utils.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/login.js" defer></script>
+</head>
+<body data-page="login">
+
+  <main class="auth-page">
+
+    <!-- ================= PANEL KIRI: BRAND & MASKOT ================= -->
+    <section class="auth-visual">
+      <img src="assets/mascot-berdiri.png" alt="Maskot LombaMate" class="auth-mascot">
+      <h1 class="auth-logo">Lomba<span class="auth-logo-accent">Mate</span></h1>
+      <p class="auth-tagline">Temukan Partner, Wujudkan Prestasi Yuk! <span class="spark">✦</span></p>
+
+      <ul class="auth-points">
+        <li><span class="point-dot"></span> Cari partner satu tim sesuai bidang lomba</li>
+        <li><span class="point-dot"></span> Pajang lombamu dan jumlah partner yang dicari</li>
+        <li><span class="point-dot"></span> Hubungkan langsung lewat kontak masing-masing</li>
+      </ul>
+
+      <img src="assets/mascot-kepala.png" alt="" class="auth-mascot-mini">
+    </section>
+
+    <!-- ================= PANEL KANAN: KARTU FORM ================= -->
+    <section class="auth-card">
+
+      <!-- Tab pilih Masuk / Daftar -->
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab active" data-panel="masuk" role="tab">Masuk</button>
+        <button type="button" class="auth-tab" data-panel="daftar" role="tab">Daftar</button>
+      </div>
+
+      <!-- ---------- FORM MASUK ---------- -->
+      <form class="auth-form" id="form-masuk" novalidate>
+        <h2 class="auth-title">Selamat datang kembali! <span class="wave">👋</span></h2>
+        <p class="auth-desc">Masuk dulu untuk berburu partner lomba.</p>
+
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" placeholder="contoh: pejuang_prestasi" required>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Password kamu" required>
+        </div>
+
+        <p class="forgot-row"><button type="button" class="link-forgot" id="btn-forgot">Lupa password?</button></p>
+
+        <!-- Panel lupa password: muncul hanya saat tautan diklik -->
+        <div id="panel-forgot" class="panel-forgot" hidden>
+          <p class="forgot-desc">Masukkan email terdaftarmu. Tautan ganti password akan dikirim.</p>
+          <div class="form-group">
+            <label for="forgot-email">Email terdaftar</label>
+            <input type="email" id="forgot-email" placeholder="email@kamu.id" autocomplete="email">
+          </div>
+          <p class="form-message" id="msg-forgot" role="status" aria-live="polite"></p>
+          <button type="button" class="btn-secondary" id="btn-kirim-reset">Kirim tautan ganti password</button>
+        </div>
+
+        <p class="form-message" id="msg-masuk" role="status" aria-live="polite"></p>
+
+        <button type="submit" class="btn-cta auth-submit">
+          Masuk
+          <svg class="btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+        </button>
+
+        <p class="auth-hint">Belum punya akun? <a href="#" data-switch="daftar">Daftar sekarang</a></p>
+      </form>
+
+      <!-- ---------- FORM DAFTAR ---------- -->
+      <form class="auth-form" id="form-daftar" novalidate hidden>
+        <h2 class="auth-title">Yuk bergabung! <span class="spark">✦</span></h2>
+        <p class="auth-desc">Satu menit saja, lomba tak akan kesepian lagi.</p>
+
+        <div class="form-group">
+          <label for="reg-name">Nama Lengkap</label>
+          <input type="text" id="reg-name" placeholder="Masukkan nama lengkapmu" required>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-username">Username</label>
+          <input type="text" id="reg-username" placeholder="contoh: pejuang_prestasi" required>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" placeholder="email@kamu.id" autocomplete="email" required>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" placeholder="Minimal 8 karakter" minlength="8" autocomplete="new-password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-confirm">Ulangi Password</label>
+            <input type="password" id="reg-confirm" placeholder="Ulangi password" required>
+          </div>
+        </div>
+
+        <p class="form-message" id="msg-daftar" role="status" aria-live="polite"></p>
+
+        <button type="submit" class="btn-cta auth-submit">
+          Daftar
+          <svg class="btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+        </button>
+
+        <p class="auth-hint">Sudah punya akun? <a href="#" data-switch="masuk">Masuk di sini</a></p>
+      </form>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

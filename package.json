@@ -1,0 +1,30 @@
+{
+  "name": "lombamate",
+  "version": "1.0.0",
+  "description": "LombaMate - platform pencari partner lomba mahasiswa (Express + HTML/CSS/JS)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/seed.js",
+    "db:push": "prisma db push",
+    "test": "node --check src/server.js && node --check src/auth.js && node --check src/seed.js"
+  },
+  "keywords": ["lomba", "partner", "tim", "mahasiswa"],
+  "author": "Kelompok B11",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/adapter-neon": "^6.19.3",
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  }
+}

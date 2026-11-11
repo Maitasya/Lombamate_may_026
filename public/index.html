@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LombaMate - Temukan Partner, Wujudkan Prestasi Yuk!</title>
+  <meta name="description" content="LombaMate: platform mencari partner lomba. Temukan teman seperjuangan dengan minat dan keahlian yang sama!">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="js/utils.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/beranda.js" defer></script>
+</head>
+<body data-requires-auth="true">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <a href="index.html" class="brand">
+      <img src="assets/mascot-kepala.png" alt="Logo LombaMate" class="brand-logo">
+      <span class="brand-name">Lomba<span class="brand-accent">Mate</span></span>
+    </a>
+
+    <span class="brand-divider"></span>
+    <p class="brand-tagline">Temukan Partner, Wujudkan Prestasi Yuk! <span class="spark spark-nav">✦</span></p>
+
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-link active">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>
+        </svg>
+        <span>Beranda</span>
+      </a>
+      <a href="profil.html" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+        </svg>
+        <span>Profil Saya</span>
+      </a>
+      <a href="tambah-partner.html" class="nav-link">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3v9"/>
+          <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+        </svg>
+        <span>Tambah Partner</span>
+      </a>
+    </nav>
+
+    <div class="user-menu-wrap">
+      <button type="button" class="user-menu" aria-label="Menu pengguna" aria-haspopup="true" aria-expanded="false">
+        <img src="assets/mascot-kepala.png" alt="Foto profil" class="user-avatar">
+        <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+
+      <div class="user-dropdown" role="menu">
+        <div class="user-dropdown-head">
+          <img src="assets/mascot-kepala.png" alt="Foto profil" class="user-dropdown-avatar">
+          <div class="user-dropdown-id">
+            <p class="user-dropdown-name">Pejuang Prestasi</p>
+            <p class="user-dropdown-username">Belum ada profil</p>
+          </div>
+        </div>
+        <a href="profil.html" class="user-dropdown-item" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+          </svg>
+          Profil Saya
+        </a>
+        <a href="index.html#timku" class="user-dropdown-item" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="8" cy="8.5" r="3.5"/>
+            <circle cx="16.5" cy="9.5" r="2.5"/>
+            <path d="M2.5 20c0-3.3 2.5-5.4 5.5-5.4s5.5 2.1 5.5 5.4"/>
+            <path d="M14.5 14.9c3.2-.6 7 1 7 4.6"/>
+          </svg>
+          Tim Saya
+        </a>
+        <a href="profil.html#form-profil" class="user-dropdown-item-edit" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>
+          </svg>
+          Edit Profil
+        </a>
+        <a href="tambah-partner.html" class="user-dropdown-item" role="menuitem">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v9"/>
+            <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+          </svg>
+          Tambah Partner
+        </a>
+        <button type="button" class="user-dropdown-item-logout" role="menuitem" data-act="logout-all">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v9"/>
+            <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+          </svg>
+          Keluar semua perangkat
+        </button>
+        <button type="button" class="user-dropdown-item-logout" role="menuitem" data-act="logout">
+          <svg class="user-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v9"/>
+            <path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>
+          </svg>
+          Keluar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero-text">
+        <span class="hero-badge"><span class="spark">✦</span> YOUR COMPETITION BESTIE</span>
+
+        <h1 class="hero-title">
+          <span class="hero-greeting">Hai, <span class="hero-accent">Pejuang Prestasi!</span> <span class="wave">👋</span></span>
+          <span class="hero-headline">Jangan Lomba <span class="hero-accent">Sendirian!</span></span>
+        </h1>
+
+        <p class="hero-desc">
+          Temukan teman seperjuangan yang punya<br>
+          semangat dan tujuan yang sama denganmu.
+        </p>
+        <p class="hero-desc">
+          Bersama, kita bisa saling mendukung<br>
+          dan meraih prestasi yang lebih tinggi!
+        </p>
+        <p class="hero-desc">
+          Dengan <strong>LombaMate</strong>, apa pun lomba yang<br>
+          kamu ikuti, kamu tidak akan sendiri lagi.
+        </p>
+
+        <a href="#teman" class="btn-cta">
+          Cari Teman Lomba
+          <svg class="btn-arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="hero-visual">
+        <img src="assets/mascot-berdiri.png" alt="Maskot LombaMate" class="hero-mascot">
+
+        <p class="speech-text">Yuk, cari<br>tim terbaikmu<br>di sini!</p>
+
+        <div class="sticky-note">
+          <h2 class="sticky-title">Sahabat Lomba</h2>
+          <p class="sticky-text">Selalu ada teman<br>untuk setiap langkah<br>menuju prestasi!</p>
+        </div>
+
+        <svg class="paper-plane" viewBox="0 0 64 48" aria-hidden="true">
+          <path d="M2 22 62 2 40 46 28 30z"/>
+          <path d="M28 30 62 2"/>
+        </svg>
+
+        <span class="spark spark-1">✦</span>
+        <span class="spark spark-2">✦</span>
+        <span class="spark spark-3">✦</span>
+        <span class="spark spark-4">✦</span>
+      </div>
+    </section>
+
+    <!-- ================= TEMAN MENCARI PARTNER ================= -->
+    <section class="partners" id="teman">
+      <div class="partners-header">
+        <svg class="partners-icon" viewBox="0 0 64 48" aria-hidden="true">
+          <path d="M2 22 62 2 40 46 28 30z"/>
+          <path d="M28 30 62 2"/>
+        </svg>
+        <div>
+          <h2 class="partners-title">Teman yang Sedang Mencari Partner <span class="heart">💙</span></h2>
+          <p class="partners-subtitle">Yuk, kenalan dengan teman-teman yang siap berjuang bersama!</p>
+        </div>
+      </div>
+
+      <!-- Pilih tampilan: Cari Teman atau Tim Saya -->
+      <div class="view-tabs" role="tablist">
+        <button type="button" class="view-tab active" data-view="cari" role="tab">
+          🔍 Cari Teman
+        </button>
+        <button type="button" class="view-tab" data-view="timku" role="tab">
+          👥 Tim Saya <span class="view-count"></span>
+        </button>
+      </div>
+
+      <!-- Cari & filter -->
+      <div class="partner-toolbar">
+        <input type="search" id="search-input" placeholder="Cari lomba, peran, atau kampus..." aria-label="Cari partner">
+        <select id="filter-category" aria-label="Filter kategori">
+          <option value="">Semua kategori</option>
+          <option value="teknologi">💻 Teknologi &amp; IT</option>
+          <option value="desain">🎨 Desain &amp; Kreatif</option>
+          <option value="karya-tulis">📝 Karya Tulis</option>
+          <option value="bisnis">📈 Bisnis &amp; Startup</option>
+          <option value="sains">🔬 Sains &amp; Olimpiade</option>
+          <option value="debat">🎤 Debat &amp; Public Speaking</option>
+          <option value="teknik">🤖 Teknik &amp; Robotik</option>
+          <option value="olahraga-seni">🏆 Olahraga &amp; Seni</option>
+        </select>
+        <select id="filter-deadline" aria-label="Filter deadline">
+          <option value="">Semua deadline</option>
+          <option value="7">⏰ 7 hari terakhir</option>
+          <option value="30">🗓️ 30 hari terakhir</option>
+          <option value="closed">📕 Sudah tutup</option>
+        </select>
+        <p class="partner-count" id="partner-count" aria-live="polite"></p>
+      </div>
+
+      <!-- Daftar partner (diisi lewat JavaScript) -->
+      <div class="partner-list" id="partner-list">
+        <div class="empty-state">
+          <img src="assets/mascot-kepala-tidur.png" alt="Maskot tidur" class="empty-mascot">
+          <p class="empty-text">Belum ada teman yang ditampilkan.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

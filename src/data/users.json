@@ -1,0 +1,26 @@
+[
+  {
+    "username": "uji_pemilik",
+    "name": "Uji Pemilik",
+    "passwordHash": "$2b$10$TEbDttwfiO.0CoOCl2U0G.JXofJOK1UOCaipoHgI/bZdIquMRMxve",
+    "createdAt": "2026-11-09T08:55:25.615Z"
+  },
+  {
+    "username": "uji_cari",
+    "name": "Uji Pencari",
+    "passwordHash": "$2b$10$b/xhTI0pPuFunhYg0VjPNug4Olq3lYApvI5oajHpIszaKlz9bkGCa",
+    "createdAt": "2026-11-09T08:55:26.323Z"
+  },
+  {
+    "username": "maya_putri",
+    "name": "Maya Putri",
+    "passwordHash": "$2b$10$RJ6AyeRBfuOjcLUZOfZV3O3JRzqwTAeiMFT1EuU.Zz9JvYtB0AVBi",
+    "createdAt": "2026-11-09T08:59:48.543Z"
+  },
+  {
+    "username": "adi",
+    "name": "Adi Pratama",
+    "passwordHash": "$2b$10$IZwvRvm2aIOi1VYg3zXYn.MhrtJFEWrllyEsd8msGl3hXJh1qieGq",
+    "createdAt": "2026-11-09T08:59:48.667Z"
+  }
+]

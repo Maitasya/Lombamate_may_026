@@ -1,0 +1,95 @@
+[
+  {
+    "id": 3,
+    "category": "desain",
+    "competition": "UI/UX Design Competition",
+    "organizer": "its",
+    "level": "Nasional",
+    "deadline": "2026-11-07",
+    "link": "https://itslombaaja.com",
+    "teamSize": "2 orang",
+    "slots": 1,
+    "roles": [
+      "UI/UX Designer",
+      "Desainer Grafis"
+    ],
+    "scope": "Satu kampus",
+    "description": "bebas",
+    "contactType": "WhatsApp",
+    "contact": "08947783923",
+    "ownerName": "Maitasya Rohmatul Ula",
+    "ownerCampus": "ITS",
+    "ownerUsername": "Perintis_Prestasi",
+    "ownerPhoto": "data:image/jpeg;base64,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",
+    "createdAt": "2026-10-31T04:42:02.180Z"
+  },
+  {
+    "id": 4,
+    "category": "teknologi",
+    "competition": "Hackathon GEMASTIK 2026",
+    "organizer": "ITS",
+    "level": "Nasional",
+    "deadline": "2026-11-20",
+    "link": "",
+    "teamSize": "3 orang",
+    "slots": 2,
+    "roles": [
+      "Frontend",
+      "UI Designer"
+    ],
+    "scope": "Online",
+    "description": "Membangun aplikasi edukasi berbasis web. Sudah punya ide dan mockup, butuh frontend developer yang rapi dan semangat belajar.",
+    "contactType": "WhatsApp",
+    "contact": "08123456789",
+    "ownerName": "Maya Putri",
+    "ownerCampus": "ITS",
+    "ownerUsername": "maya_putri",
+    "createdAt": "2026-11-01T05:44:45.995Z"
+  },
+  {
+    "id": 5,
+    "category": "karya-tulis",
+    "competition": "Lomba Esai Ilmiah Nasional",
+    "organizer": "UI",
+    "level": "Nasional",
+    "deadline": "2026-11-15",
+    "link": "",
+    "teamSize": "3 orang",
+    "slots": 1,
+    "roles": [
+      "Penulis"
+    ],
+    "scope": "Satu kampus",
+    "description": "Mencari partner penulis yang jago riset bibliografi untuk esai tentang teknologi pendidikan.",
+    "contactType": "WhatsApp",
+    "contact": "08123456789",
+    "ownerName": "Maya Putri",
+    "ownerCampus": "ITS",
+    "ownerUsername": "maya_putri",
+    "createdAt": "2026-11-01T05:44:46.016Z"
+  },
+  {
+    "id": 6,
+    "category": "karya-tulis",
+    "competition": "Lomba Esai",
+    "organizer": "unair kimai",
+    "level": "Nasional",
+    "deadline": "2026-12-12",
+    "link": "https://lombanggaksih.com",
+    "teamSize": "3 orang",
+    "slots": 1,
+    "roles": [
+      "Penulis",
+      "Presenter"
+    ],
+    "scope": "Bebas",
+    "description": "belajar aja nggak apa",
+    "contactType": "WhatsApp",
+    "contact": "0875345256",
+    "ownerName": "Leci Kecil",
+    "ownerCampus": "UB",
+    "ownerUsername": "mawar123",
+    "ownerPhoto": "",
+    "createdAt": "2026-11-03T01:41:14.308Z"
+  }
+]

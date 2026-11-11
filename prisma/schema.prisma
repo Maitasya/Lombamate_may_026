@@ -1,0 +1,114 @@
+// =========================================================
+// LombaMate - prisma/schema.prisma
+// Database PostgreSQL (Neon) via Prisma ORM.
+// Struktur meneruskan data versi JSON supaya:
+//   - frontend tidak perlu berubah
+//   - cara kerja API tetap sama
+// =========================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Postingan partner lomba
+model Partner {
+  id            Int      @id @default(autoincrement())
+  category      String
+  competition   String
+  organizer     String?  @default("")
+  level         String?  @default("")
+  deadline      String?  @default("") // tetap String (bukan tipe Date) supaya bentuk data sama dengan versi JSON
+  link          String?  @default("")
+  teamSize      String?  @default("")
+  slots         Int?                  // null = jumlah bebas; angka = batas kuota 1-10
+  roles         Json                  // array peran, mis. ["Frontend", "Backend"]
+  scope         String?  @default("")
+  description   String?  @default("")
+  contactType   String   @default("WhatsApp")
+  contact       String
+  ownerName     String?  @default("")
+  ownerCampus   String?  @default("")
+  ownerUsername String
+  ownerPhoto    String?  @default("") // base64 foto (boleh besar, tipe TEXT di Postgres)
+  createdAt     DateTime @default(now())
+
+  joins Join[] // semua permintaan gabung untuk postingan ini
+}
+
+// Permintaan gabung (tombol "Ikuti")
+model Join {
+  id        Int      @id @default(autoincrement())
+  partner   Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  partnerId Int
+  name      String
+  username  String
+  status    String   @default("menunggu") // menunggu | diterima | ditolak
+  createdAt DateTime @default(now())
+
+  @@index([partnerId])
+}
+
+// Profil publik (key = username akun)
+model Profile {
+  username  String   @id
+  name      String   @default("")
+  campus    String   @default("")
+  major     String   @default("")
+  contact   String   @default("")
+  bio       String   @default("")
+  photo     String?  @default("")
+  looking   Boolean  @default(true)
+  interests Json     @default("[]") // array string
+  skills    Json     @default("[]") // array string
+  history   Json     @default("[]") // array { title, result }
+  updatedAt DateTime @updatedAt
+}
+
+/* =========================================================
+   AUTENTIKASI (migrasi dari users.json / sessions.json)
+   - User   : akun terpusat; password HANYA hash bcrypt
+   - Session: sesi login; id = hash SHA-256 dari token cookie
+              (token asli TIDAK disimpan di database)
+   - PasswordReset: token ganti password; id = SHA-256 token,
+              kadaluarsa 30 menit, sekali pakai
+   ========================================================= */
+
+// Akun pengguna (registrasi & login semuanya lewat server)
+model User {
+  id           Int               @id @default(autoincrement())
+  username     String            @unique // selalu huruf kecil
+  email        String            @unique // selalu huruf kecil
+  name         String
+  passwordHash String                    // bcrypt, plaintext TIDAK PERNAH disimpan
+  createdAt    DateTime          @default(now())
+
+  sessions     Session[]
+  resets       PasswordReset[]
+}
+
+// Sesi masuk yang aktif (untuk "kelola sesi" dan keluar semua perangkat)
+model Session {
+  id         String   @id // SHA-256 hex dari token cookie
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  expiresAt  DateTime
+
+  @@index([userId])
+}
+
+// Permintaan lupa password (token sekali pakai, berlaku 30 menit)
+model PasswordReset {
+  id        String    @id // SHA-256 hex dari token
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  usedAt    DateTime? // terisi = token sudah dipakai
+}
