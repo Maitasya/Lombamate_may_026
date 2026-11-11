@@ -41,7 +41,7 @@ Banyak mahasiswa ingin mengikuti lomba tetapi kesulitan menemukan rekan satu tim
    - **POST**: menambahkan data melalui form.
    - **PUT**: mengubah data melalui fitur Edit.
    - **DELETE**: menghapus data melalui tombol Hapus.
-3. Menyimpan data secara persisten dalam file JSON.
+3. Menyimpan data secara persisten di **database PostgreSQL (Neon) melalui Prisma ORM**.
 
 ---
 
@@ -168,10 +168,12 @@ Base URL: `http://localhost:3000`
 | Method | Endpoint | Body | Respons sukses | Respons gagal |
 |---|---|---|---|---|
 | GET | `/api/partners` | – | `200` daftar partner | – |
-| GET | `/api/partners/:id` | – | `200` satu partner | `404` |
-| POST | `/api/partners` | data partner | `201` partner baru | `400` |
-| PUT | `/api/partners/:id` | data + `requester` | `200` partner terbaru | `400`, `403`, `404` |
-| DELETE | `/api/partners/:id` | `{ "requester": "..." }` | `200` pesan sukses | `403`, `404` |
+| GET | `/api/partners/:id` | – | `200` satu partner (khusus pemilik) | `403`, `404` |
+| POST | `/api/partners` | data partner | `201` partner baru | `400`, `401` |
+| PUT | `/api/partners/:id` | data partner | `200` partner terbaru | `400`, `403`, `404` |
+| DELETE | `/api/partners/:id` | – | `200` pesan sukses | `403`, `404` |
+
+> Identitas pemilik **tidak dikirim dari klien** — server mengambilnya dari cookie sesi yang terverifikasi database.
 
 ### 5.2 Contoh request
 
@@ -195,20 +197,17 @@ Base URL: `http://localhost:3000`
 }
 ```
 
-**PUT `/api/partners/:id`**
+**PUT `/api/partners/:id`** (hanya pemilik yang sedang masuk)
 ```json
-{ "requester": "maya_putri", "slots": 1 }
+{ "slots": 1 }
 ```
 
-**DELETE `/api/partners/:id`**
-```json
-{ "requester": "maya_putri" }
-```
+**DELETE `/api/partners/:id`** (hanya pemilik yang sedang masuk, tanpa body)
 
 ### 5.3 Aturan validasi
 - `category`, `competition`, `roles` (minimal satu), dan `contact` wajib diisi.
 - `slots` boleh kosong, atau bilangan bulat 1 sampai 10.
-- `PUT` dan `DELETE` hanya diizinkan jika `requester` sama dengan `ownerUsername` pemilik data.
+- `PUT` dan `DELETE` hanya diizinkan untuk pemilik data (sesi login di server = `ownerUsername`).
 
 ### 5.4 Endpoint tambahan
 | Method | Endpoint | Fungsi |
@@ -219,13 +218,19 @@ Base URL: `http://localhost:3000`
 | GET | `/api/profiles`, `/api/profiles/:username` | Melihat profil publik |
 | PUT | `/api/profiles/:username` | Menyimpan profil sendiri |
 
-### 5.5 Endpoint autentikasi (baru)
+### 5.5 Endpoint autentikasi
 | Method | Endpoint | Fungsi |
 |---|---|---|
 | POST | `/api/auth/register` | Membuat akun baru, otomatis masuk |
 | POST | `/api/auth/login` | Masuk (dibatasi 5x gagal ⇒ jeda 5 menit) |
 | POST | `/api/auth/logout` | Keluar, sesi dihapus di server |
 | GET | `/api/auth/me` | Memeriksa siapa pengguna yang sedang masuk |
+| POST | `/api/auth/change-password` | Ganti password (sesi perangkat lain dicabut) |
+| POST | `/api/auth/forgot` | Minta tautan ganti password (token sekali pakai, 30 menit) |
+| POST | `/api/auth/reset` | Ganti password lewat token |
+| GET | `/api/auth/sessions` | Daftar sesi aktif per perangkat |
+| DELETE | `/api/auth/sessions/:id` | Matikan satu sesi |
+| POST | `/api/auth/logout-all` | Keluar dari semua perangkat |
 
 ---
 
@@ -233,9 +238,9 @@ Base URL: `http://localhost:3000`
 
 Sebelumnya login hanya berjalan di browser, sehingga identitas bisa dipalsukan dengan mengirim field `requester` ke API. Sekarang keamanan ditangani server:
 
-1. **Password di-hash** dengan **bcrypt** (`src/auth.js`), tersimpan di `src/data/users.json`; password mentah tidak pernah disimpan.
-2. **Sesi = cookie `HttpOnly`** yang dibuat server (token acak 32 byte, berlaku 7 hari). JavaScript di browser tidak bisa membacanya.
-3. **Semua endpoint tulis wajib login** melalui middleware `requireAuth`; identitas diambil dari sesi, **bukan dari body**. Field `requester` dari klien diabaikan.
+1. **Password di-hash** dengan **bcrypt** (`src/auth.js`), tersimpan di tabel `User` (PostgreSQL/Neon); password mentah tidak pernah disimpan.
+2. **Sesi = cookie `HttpOnly`** yang dibuat server (token acak 32 byte, berlaku 7 hari). JavaScript di browser tidak bisa membacanya, dan database hanya menyimpan SHA-256 dari token — token mentah tidak pernah disimpan.
+3. **Semua endpoint tulis wajib login** melalui middleware `requireAuth`; identitas diambil dari sesi yang diverifikasi ke database, **bukan dari body maupun localStorage**.
 4. **Validasi backend menyeluruh**: kategori/tingkat/jenis kontak harus dari daftar resmi, panjang teks dibatasi, deadline wajib format `YYYY-MM-DD` dan tidak boleh lewat, link wajib `http/https`.
 5. **Header keamanan**: Content-Security-Policy, X-Frame-Options DENY, nosniff, Referrer-Policy.
 6. **Aturan keputusan join**: hanya permintaan berstatus `menunggu` yang bisa diputuskan, permintaan yang ditolak tidak bisa diaktifkan ulang, kuota dicek ulang saat menerima, dan permintaan aktif duplikat diblokir.
@@ -249,27 +254,39 @@ Sebelumnya login hanya berjalan di browser, sehingga identitas bisa dipalsukan d
 ### 6.1 Prasyarat
 - [Node.js](https://nodejs.org/) versi 18 atau lebih baru (cek dengan `node -v`).
 - Koneksi internet saat `npm install` pertama kali.
+- Akun database **PostgreSQL** (project ini memakai [Neon](https://neon.tech) — ada paket gratis).
 
 ### 6.2 Langkah-langkah
-1. **Ekstrak** file ZIP, lalu buka terminal di folder `lombamate`.
+1. **Clone** repository, lalu buka terminal di foldernya.
    ```bash
+   git clone https://github.com/Maitasya/lombamate.git
    cd lombamate
    ```
 2. **Pasang dependensi** (cukup sekali; folder `node_modules` dibuat otomatis).
    ```bash
    npm install
    ```
-3. **Jalankan server.**
+3. **Siapkan koneksi database**: buat file `.env` di dalam folder (tidak ikut repo) berisi:
+   ```
+   DATABASE_URL="postgresql://USER:PASSWORD@HOST/dbname?sslmode=require"
+   ```
+4. **Buat tabel** di database dari skema Prisma, lalu **isi data & akun demo**:
+   ```bash
+   npx prisma db push     # membuat tabel Partner, Join, Profile, User, Session, PasswordReset
+   npm run seed           # mengisi data & akun demo dari src/data/*.json
+   ```
+   Akun demo: `maya_putri` / `mayamantap123`, `adi` / `adimantap123`, `uji_pemilik` / `rahasia123`, `uji_cari` / `rahasia456`.
+5. **Jalankan server.**
    ```bash
    npm start
    ```
    Alternatif: `node src/server.js`.
-4. Jika berhasil, terminal menampilkan:
+6. Jika berhasil, terminal menampilkan:
    ```
    Server jalan di http://localhost:3000
    ```
-5. **Buka browser** dan akses <http://localhost:3000>.
-6. Untuk menghentikan server, tekan `Ctrl + C` di terminal.
+7. **Buka browser** dan akses <http://localhost:3000>.
+8. Untuk menghentikan server, tekan `Ctrl + C` di terminal.
 
 ### 6.3 Mengganti port (opsional)
 ```bash
@@ -291,6 +308,8 @@ PORT=4000 npm start
 | Masalah | Penyebab dan solusi |
 |---|---|
 | `Cannot find module 'express'` | Belum menjalankan `npm install`. |
+| `PrismaClientInitializationError` / `P1001` (tidak bisa ke database) | `DATABASE_URL` salah atau kosong; cek isi `.env` dan koneksi internet (Neon butuh `sslmode=require`). |
+| Error `User was not found` saat masuk / tabel kosong | Belum menjalankan `npx prisma db push` dan `npm run seed` (lihat 6.2 langkah 4). |
 | `npm start` tidak dikenali | Pastikan terminal berada di folder `lombamate` (yang berisi `package.json`). |
 | `EADDRINUSE: address already in use` | Port 3000 sedang dipakai; ganti port (lihat 6.3). |
 | Halaman menampilkan "Tidak bisa terhubung ke server" | Server belum berjalan; jalankan `npm start`. |
@@ -329,12 +348,12 @@ PORT=4000 npm start
 ---
 
 ## 8. Kesimpulan
-Aplikasi **LombaMate** berhasil dibangun dengan Express sebagai back-end dan HTML, CSS, JavaScript sebagai front-end. Keempat operasi wajib (GET, POST, PUT, DELETE) berjalan dan terhubung ke antarmuka web, serta dilengkapi validasi data dan pembatasan hak akses pemilik. Data tersimpan secara persisten dalam file JSON sehingga tetap ada setelah server dimatikan.
+Aplikasi **LombaMate** berhasil dibangun dengan Express sebagai back-end dan HTML, CSS, JavaScript sebagai front-end. Keempat operasi wajib (GET, POST, PUT, DELETE) berjalan dan terhubung ke antarmuka web, serta dilengkapi validasi data dan pembatasan hak akses pemilik. Seluruh data — postingan partner, permintaan gabung, profil, akun, dan sesi login — kini tersimpan **persisten di PostgreSQL (Neon) melalui Prisma ORM**, sehingga tetap ada setelah server dimatikan. Autentikasi ditangani sepenuhnya di server: password di-hash bcrypt, sesi cookie HttpOnly diverifikasi ke database di setiap permintaan, dan frontend tidak dipercaya menyimpan identitas.
 
 ### Pengembangan lanjutan
-- Mengganti penyimpanan JSON dengan database (misalnya SQLite atau MongoDB).
-- Autentikasi berbasis token (JWT) dan penyimpanan password ter-hash di server.
-- Notifikasi ketika permintaan gabung diterima atau ditolak.
+- Kirim tautan "lupa password" lewat email sungguhan (layanan SMTP seperti Resend/Gmail).
+- Rate limiting untuk seluruh endpoint (mis. `express-rate-limit`), bukan hanya login.
+- Transaksi kuota partner (`prisma.$transaction`) agar benar-benar atomik.
 
 ---
 

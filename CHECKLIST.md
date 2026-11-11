@@ -74,14 +74,18 @@ Status: ✔ selesai · 🔄 berjalan · ⬜ belum mulai.
 | Butir | Perbaikan | Status |
 |---|---|---|
 | 131–136 | Migrasi database (PostgreSQL/Neon + Prisma) | ✔ **Selesai 10 Nov 2026** — Partner/Join/Profile di Neon, seed data lama, API tetap sama |
+| 137 | **Autentikasi terpusat di database** | ✔ **Selesai 11 Nov 2026** — tabel User (bcrypt), Session (token SHA-256), PasswordReset; users.json/sessions.json tidak lagi dipakai runtime |
 | 138 | ID dari autoincrement database | ✔ (`@default(autoincrement())` + sequence dirapikan saat seed) |
-| 139, 140, 165, 166 | Unique & foreign key di database | ✔ (Join → Partner FK + onDelete Cascade; Profile PK username) |
+| 139, 140, 165, 166 | Unique & foreign key di database | ✔ (Join → Partner FK + onDelete Cascade; Profile PK username; User.username & User.email @unique) |
 | 143, 148 | Transaksi kuota & sinkronisasi hapus | ✔ sebagian (hapus partner atomik via Cascade; kuota dicek ulang saat menerima) |
-| 133 | Atomic write file JSON | ✔ (auth.js); partisi User/Sesi masih file (rencana migrasi tabel User) |
+| 133 | Atomic write file JSON | ✔ (auth.js) — tidak lagi dipakai: akun & sesi pindah ke database |
 | 168 | Seed terdokumentasi | ✔ `src/seed.js` (jalan dengan `npm run seed`) |
-| 123, 124 | Rate limiting seluruh endpoint | 🔄 saat ini hanya login; disarankan `express-rate-limit` |
+| — | Ganti password, lupa/reset password, kelola sesi aktif, logout semua perangkat | ✔ endpoint + UI (panel lupa password di login, halaman reset.html, menu "Keluar semua perangkat") |
+| — | Session fixation & cookie per lingkungan | ✔ token baru tiap login; HttpOnly/SameSite=Lax/Secure saat NODE_ENV=production |
+| — | Frontend tidak andal localStorage | ✔ guard memverifikasi sesi ke server (GET /api/auth/me); localStorage hanya cache tampilan |
+| 123, 124 | Rate limiting seluruh endpoint | 🔄 login saja (5x/akun, 20x/IP); endpoint lain menyusul |
 | 126 | Idempotency operasi tertentu | ⬜ |
-| 191–194 | Pengujian otomatis | 🔄 `npm test` cek sintaks semua server; unit/integration test menyusul |
+| 191–194 | Pengujian otomatis | 🔄 `npm test` cek sintaks semua server; uji manual 18 skenario auth lulus (11 Nov) |
 
 ## P2 — Peningkatan produk
 
