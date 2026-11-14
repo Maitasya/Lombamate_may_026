@@ -695,6 +695,147 @@ function kuotaDari(partner, joins, excludeJoinId = null) {
 }
 
 /* =========================================================
+   MIDDLEWARE OTORISASI (hak akses)
+
+   Autentikasi (requireAuth) menjawab "sudah masuk?".
+   Middleware di bawah menjawab "boleh melakukan ini?".
+   Semua identitas diambil dari req.user yang diisi
+   requireAuth dari cookie sesi terverifikasi database -
+   TIDAK PERNAH dari body request atau query.
+   ========================================================= */
+
+// Muat partner :id -> 400/404 bila tidak sah, lalu cek pemiliknya.
+// Dipakai: GET/PUT/DELETE /api/partners/:id (satu aturan, satu tempat).
+async function wajibPemilikPartner(req, res, next) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({
+      message: 'ID partner tidak valid.'
+    });
+  }
+
+  const partner = await prisma.partner.findUnique({
+    where: { id },
+    include: {
+      joins: {
+        orderBy: { createdAt: 'asc' }
+      }
+    }
+  });
+
+  if (!partner) {
+    return res.status(404).json({
+      message: 'Partner tidak ditemukan.'
+    });
+  }
+
+  if (
+    String(partner.ownerUsername).toLowerCase() !==
+    req.user.username.toLowerCase()
+  ) {
+    return res.status(403).json({
+      message: 'Hanya pemilik postingan yang boleh melakukan ini.'
+    });
+  }
+
+  req.partner = partner;
+  next();
+}
+
+// Keputusan join (terima/tolak) = HANYA pemilik postingan tujuan.
+// Dipakai: PUT /api/joins/:id
+async function wajibPemilikKeputusanJoin(req, res, next) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({
+      message: 'ID permintaan tidak valid.'
+    });
+  }
+
+  const join = await prisma.join.findUnique({
+    where: { id },
+    include: {
+      partner: {
+        include: {
+          joins: {
+            orderBy: { createdAt: 'asc' }
+          }
+        }
+      }
+    }
+  });
+
+  if (!join) {
+    return res.status(404).json({
+      message: 'Permintaan tidak ditemukan.'
+    });
+  }
+
+  if (
+    String(join.partner.ownerUsername).toLowerCase() !==
+    req.user.username.toLowerCase()
+  ) {
+    return res.status(403).json({
+      message: 'Hanya pemilik postingan yang bisa memutuskan permintaan ini.'
+    });
+  }
+
+  req.join = join;
+  req.partner = join.partner;
+  next();
+}
+
+// Pembatalan join = HANYA pengajunya sendiri.
+// Dipakai: DELETE /api/joins/:id
+async function wajibPengajuJoin(req, res, next) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({
+      message: 'ID permintaan tidak valid.'
+    });
+  }
+
+  const join = await prisma.join.findUnique({
+    where: { id }
+  });
+
+  if (!join) {
+    return res.status(404).json({
+      message: 'Permintaan tidak ditemukan.'
+    });
+  }
+
+  if (
+    join.username.toLowerCase() !==
+    req.user.username.toLowerCase()
+  ) {
+    return res.status(403).json({
+      message: 'Hanya pengaju yang bisa membatalkan permintaannya.'
+    });
+  }
+
+  req.join = join;
+  next();
+}
+
+// Profil :username hanya boleh diubah oleh pemiliknya.
+// Dipakai: PUT /api/profiles/:username
+function wajibProfilSendiri(req, res, next) {
+  const target = String(req.params.username || '').toLowerCase();
+
+  if (target !== req.user.username.toLowerCase()) {
+    return res.status(403).json({
+      message: 'Hanya pemilik profil yang bisa mengubah profilnya.'
+    });
+  }
+
+  next();
+}
+
+/* =========================================================
    ENDPOINT PARTNER
    ========================================================= */
 
@@ -752,46 +893,18 @@ app.get('/api/partners', async (req, res) => {
   res.json(hasil);
 });
 
-// GET satu partner untuk mode edit
-app.get('/api/partners/:id', requireAuth, async (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({
-      message: 'ID partner tidak valid.'
-    });
-  }
-
-  const partner = await prisma.partner.findUnique({
-    where: { id },
-    include: {
-      joins: {
-        orderBy: { createdAt: 'asc' }
-      }
-    }
-  });
-
-  if (!partner) {
-    return res.status(404).json({
-      message: 'Partner tidak ditemukan.'
-    });
-  }
-
-  if (
-    String(partner.ownerUsername).toLowerCase() !==
-    req.user.username.toLowerCase()
-  ) {
-    return res.status(403).json({
-      message: 'Hanya pemilik postingan yang bisa mengeditnya.'
-    });
-  }
-
-  const terbaru = await dataPemilikTerbaru(partner.ownerUsername);
-
-  res.json(partnerKeJson({ ...partner, ...terbaru }));
+// GET satu partner untuk mode edit (khusus pemilik)
+app.get('/api/partners/:id', requireAuth, wajibPemilikPartner, (req, res, next) => {
+  dataPemilikTerbaru(req.partner.ownerUsername)
+    .then((terbaru) => {
+      res.json(partnerKeJson({ ...req.partner, ...terbaru }));
+    })
+    .catch(next);
 });
 
 // POST tambah partner
+// Identitas pemilik (ownerName/ownerUsername) SELALU dari sesi -
+// field owner* yang dikirim klien diabaikan lewat pick().
 app.post('/api/partners', requireAuth, async (req, res) => {
   const data = pick(req.body);
 
@@ -823,40 +936,13 @@ app.post('/api/partners', requireAuth, async (req, res) => {
   res.status(201).json(partnerKeJson(partner));
 });
 
-// PUT edit partner
-app.put('/api/partners/:id', requireAuth, async (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({
-      message: 'ID partner tidak valid.'
-    });
-  }
-
-  const lama = await prisma.partner.findUnique({
-    where: { id }
-  });
-
-  if (!lama) {
-    return res.status(404).json({
-      message: 'Partner tidak ditemukan.'
-    });
-  }
-
-  if (
-    String(lama.ownerUsername).toLowerCase() !==
-    req.user.username.toLowerCase()
-  ) {
-    return res.status(403).json({
-      message: 'Hanya pemilik postingan yang bisa mengubah.'
-    });
-  }
-
+// PUT edit partner (hanya pemilik)
+app.put('/api/partners/:id', requireAuth, wajibPemilikPartner, async (req, res) => {
   const data = pick(req.body);
 
   // Gabungkan data lama dan data baru untuk validasi PUT
   const gabungan = {
-    ...partnerKeJson(lama),
+    ...partnerKeJson(req.partner),
     ...data
   };
 
@@ -873,44 +959,17 @@ app.put('/api/partners/:id', requireAuth, async (req, res) => {
   }
 
   const updated = await prisma.partner.update({
-    where: { id: lama.id },
+    where: { id: req.partner.id },
     data: siapkanPartner(gabungan)
   });
 
   res.json(partnerKeJson(updated));
 });
 
-// DELETE partner
-app.delete('/api/partners/:id', requireAuth, async (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({
-      message: 'ID partner tidak valid.'
-    });
-  }
-
-  const lama = await prisma.partner.findUnique({
-    where: { id }
-  });
-
-  if (!lama) {
-    return res.status(404).json({
-      message: 'Partner tidak ditemukan.'
-    });
-  }
-
-  if (
-    String(lama.ownerUsername).toLowerCase() !==
-    req.user.username.toLowerCase()
-  ) {
-    return res.status(403).json({
-      message: 'Hanya pemilik postingan yang bisa menghapus.'
-    });
-  }
-
+// DELETE partner (hanya pemilik)
+app.delete('/api/partners/:id', requireAuth, wajibPemilikPartner, async (req, res) => {
   await prisma.partner.delete({
-    where: { id: lama.id }
+    where: { id: req.partner.id }
   });
 
   res.json({
@@ -1009,50 +1068,15 @@ function partnerKeJsonJ(joins) {
     );
 }
 
-// PUT terima atau tolak permintaan
-app.put('/api/joins/:id', requireAuth, async (req, res) => {
-  const id = Number(req.params.id);
+// PUT terima atau tolak permintaan (hanya pemilik postingan)
+app.put('/api/joins/:id', requireAuth, wajibPemilikKeputusanJoin, (req, res, next) => {
   const status = req.body && req.body.status;
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({
-      message: 'ID permintaan tidak valid.'
-    });
-  }
+  const join = req.join;
+  const partner = req.partner;
 
   if (status !== 'diterima' && status !== 'ditolak') {
     return res.status(400).json({
       message: 'Status harus "diterima" atau "ditolak".'
-    });
-  }
-
-  const join = await prisma.join.findUnique({
-    where: { id },
-    include: {
-      partner: {
-        include: {
-          joins: {
-            orderBy: { createdAt: 'asc' }
-          }
-        }
-      }
-    }
-  });
-
-  if (!join) {
-    return res.status(404).json({
-      message: 'Permintaan tidak ditemukan.'
-    });
-  }
-
-  const partner = join.partner;
-
-  if (
-    String(partner.ownerUsername).toLowerCase() !==
-    req.user.username.toLowerCase()
-  ) {
-    return res.status(403).json({
-      message: 'Hanya pemilik postingan yang bisa memutuskan.'
     });
   }
 
@@ -1076,60 +1100,35 @@ app.put('/api/joins/:id', requireAuth, async (req, res) => {
     }
   }
 
-  const updated = await prisma.join.update({
+  prisma.join.update({
     where: { id: join.id },
     data: { status }
-  });
+  })
+    .then((updated) => {
+      const message =
+        status === 'diterima'
+          ? 'Permintaan diterima. Selamat bergabung! 🎉'
+          : 'Permintaan ditolak dan kuota dikembalikan.';
 
-  const message =
-    status === 'diterima'
-      ? 'Permintaan diterima. Selamat bergabung! 🎉'
-      : 'Permintaan ditolak dan kuota dikembalikan.';
-
-  res.json({
-    message,
-    requests: partnerKeJsonJ(partner.joins),
-    join: joinKeJson(updated)
-  });
+      res.json({
+        message,
+        requests: partnerKeJsonJ(partner.joins),
+        join: joinKeJson(updated)
+      });
+    })
+    .catch(next);
 });
 
-// DELETE batalkan permintaan atau tinggalkan tim
-app.delete('/api/joins/:id', requireAuth, async (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({
-      message: 'ID permintaan tidak valid.'
-    });
-  }
-
-  const join = await prisma.join.findUnique({
-    where: { id }
-  });
-
-  if (!join) {
-    return res.status(404).json({
-      message: 'Permintaan tidak ditemukan.'
-    });
-  }
-
-  if (
-    join.username.toLowerCase() !==
-    req.user.username.toLowerCase()
-  ) {
-    return res.status(403).json({
-      message: 'Hanya pengaju yang bisa membatalkan permintaannya.'
-    });
-  }
-
-  const statusLama = join.status;
+// DELETE batalkan permintaan atau tinggalkan tim (hanya pengaju)
+app.delete('/api/joins/:id', requireAuth, wajibPengajuJoin, async (req, res) => {
+  const join = req.join;
 
   await prisma.join.delete({
     where: { id: join.id }
   });
 
   const message =
-    statusLama === 'diterima'
+    join.status === 'diterima'
       ? 'Kamu meninggalkan tim. Semoga jumpa di lomba lain! 👋'
       : 'Permintaan dibatalkan dan kuota dikembalikan.';
 
@@ -1149,8 +1148,8 @@ app.get('/api/profiles', requireAuth, async (req, res) => {
   res.json(daftar.map(profilKeJson));
 });
 
-// GET satu profil
-app.get('/api/profiles/:username', async (req, res) => {
+// GET satu profil (wajib login - sama seperti daftar profil; least privilege)
+app.get('/api/profiles/:username', requireAuth, async (req, res) => {
   const username = String(req.params.username).toLowerCase();
 
   const profile = await prisma.profile.findUnique({
@@ -1166,15 +1165,9 @@ app.get('/api/profiles/:username', async (req, res) => {
   res.json(profilKeJson(profile));
 });
 
-// PUT simpan profil sendiri
-app.put('/api/profiles/:username', requireAuth, async (req, res) => {
+// PUT simpan profil sendiri (hanya pemilik profil)
+app.put('/api/profiles/:username', requireAuth, wajibProfilSendiri, async (req, res) => {
   const target = String(req.params.username).toLowerCase();
-
-  if (target !== req.user.username.toLowerCase()) {
-    return res.status(403).json({
-      message: 'Hanya pemilik profil yang bisa menyimpan profilnya.'
-    });
-  }
 
   const bersih = validateProfilBody(req.body);
 

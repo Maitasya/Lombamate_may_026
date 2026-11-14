@@ -351,6 +351,9 @@ Keamanan LombaMate ditangani pada sisi server agar pengguna tidak dapat menentuk
 5. **Penyimpanan token:** Database menyimpan hash SHA-256 token sesi, bukan token mentah.
 6. **Pengelolaan sesi:** Pengguna dapat melihat sesi aktif, mengakhiri sesi tertentu, maupun logout dari semua perangkat.
 7. **Reset password:** Token reset memiliki masa berlaku dan digunakan untuk proses pengaturan ulang password.
+8. **Middleware otorisasi terpusat:** Hak akses dipisah dari logika endpoint dalam middleware `wajibPemilikPartner` (edit/hapus/lihat postingan), `wajibPemilikKeputusanJoin` (terima/tolak permintaan gabung), `wajibPengajuJoin` (batalkan permintaan sendiri), dan `wajibProfilSendiri` (ubah profil sendiri) — semuanya membaca identitas dari `req.user` hasil verifikasi cookie, **tidak pernah dari body request**.
+9. **Identitas pemilik tidak bisa dipalsukan:** field `ownerUsername`/`ownerName` yang dikirim klien diabaikan (`pick()` hanya menerima field konten); server mengisi identitas dari sesi.
+10. **Least privilege:** profil individual (`GET /api/profiles/:username`) kini juga wajib login, konsisten dengan daftar profil.
 
 ### 7.2 Validasi dan Hak Akses
 
