@@ -528,6 +528,18 @@ Beberapa skenario pengujian:
 - Memeriksa sesi login dan proses logout.
 - Memeriksa penyimpanan password dalam bentuk hash.
 
+### 10.4 Bukti Database (Before–After) dan Autentikasi
+
+| SS | Isi | Bukti |
+|---:|---|---|
+| 27 | **BEFORE** — akun tersimpan di berkas `src/data/users.json` | `screenshots/27-before-akun-users-json.png` |
+| 28 | **AFTER** — akun di tabel `User` PostgreSQL (Neon) via Prisma Studio: `email` unik, `passwordHash` bcrypt | `screenshots/28-after-tabel-user-neon.png` |
+| 29 | Tabel `Session` — sesi login terpusat (id = SHA-256 token cookie) | `screenshots/29-after-tabel-session-neon.png` |
+| 30 | Halaman masuk + panel **Lupa password** | `screenshots/30-login-lupa-password.png` |
+| 31 | Halaman **Ganti password** lewat token sekali pakai | `screenshots/31-reset-password.png` |
+| 32 | Beranda setelah masuk — sesi cookie HttpOnly terverifikasi database | `screenshots/32-beranda-sesi-db.png` |
+| 33 | Rekap 18 skenario uji autentikasi | `screenshots/33-bukti-uji-auth.png` |
+
 > Letakkan seluruh screenshot yang digunakan pada folder `screenshots/` di direktori yang sama dengan README ini. Pastikan nama file dan lokasi gambar sesuai dengan tabel dokumentasi.
 
 ---
